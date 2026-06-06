@@ -224,6 +224,8 @@ get_featured_playlists <- function(locale = NULL, country = NULL, timestamp = NU
 #' @param include_seeds_in_response Optional. Boolean for whether to include seed object in response. Defaults to \code{FALSE}.
 #' @return
 #' Returns a data frame of results recommendations. See the official \href{https://developer.spotify.com/documentation/web-api/reference/browse/get-recommendations/}{Spotify Web API documentation} for more information.
+#' @details Deprecated. Spotify removed \code{GET /v1/recommendations}
+#'   (HTTP 404) in November 2024; the endpoint no longer exists.
 #' @export
 #'
 #' @examples
@@ -281,6 +283,10 @@ get_recommendations <- function(limit = 20,
                                 target_valence = NULL,
                                 authorization = get_spotify_access_token(),
                                 include_seeds_in_response = FALSE) {
+
+    .Deprecated(msg = paste("get_recommendations(): Spotify removed",
+        "GET /v1/recommendations (HTTP 404) in November 2024;",
+        "the endpoint no longer exists."))
 
     if (length(seed_artists) + length(seed_tracks) + length(seed_genres) > 5) {
         stop("Too many seed values. Up to 5 seed values may be provided in any combination of seed_artists, seed_tracks and seed_genres")

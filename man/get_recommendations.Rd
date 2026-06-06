@@ -133,6 +133,10 @@ Returns a data frame of results recommendations. See the official \href{https://
 \description{
 Create a playlist-style listening experience based on seed artists, tracks and genres.
 }
+\details{
+Deprecated. Spotify removed \code{GET /v1/recommendations}
+  (HTTP 404) in November 2024; the endpoint no longer exists.
+}
 \examples{
 \dontrun{
 ## Get new Swedish music
