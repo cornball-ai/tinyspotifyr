@@ -11,5 +11,5 @@ Imports:
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/TroyHernandez/tinyspotifyr
-BugReports: https://github.com/TroyHernandez/tinyspotifyr/issues
+URL: https://github.com/cornball-ai/tinyspotifyr
+BugReports: https://github.com/cornball-ai/tinyspotifyr/issues
