@@ -1,15 +1,12 @@
-#' \code{tinyspotifyr} package
-#'
-#' A Quick and Easy Wrapper for Spotify's Web API
+#' tinyspotifyr: A Quick and Easy Wrapper for Spotify's Web API
 #'
 #' See the README on
 #' \href{https://github.com/troyhernandez/tinyspotifyr#readme}{GitHub}
 #'
-#' @docType package
-#' @name tinyspotifyr
 #' @importFrom httr RETRY GET accept_json authenticate config content oauth2.0_token oauth_app oauth_endpoint stop_for_status
 #' @importFrom jsonlite fromJSON toJSON
-NULL
+#' @keywords internal
+"_PACKAGE"
 
 globalVars <- c(
 "album_name",
