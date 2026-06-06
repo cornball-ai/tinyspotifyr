@@ -1,14 +1,8 @@
 Package: tinyspotifyr
 Title: Tinyverse R Wrapper for the 'Spotify' Web API
 Version: 0.2.2
-Authors@R: c(person("Troy", "Hernandez", email = "troy.hernandez.phd@gmail.com", role = c("aut", "cre")), person("Charlie", "Thompson", email = "chuck@rcharlie.com", role = c("aut")), person("Josiah", "Parry", email = "josiah.parry@yahoo.com", role = "aut"), person("Donal", "Phipps", email = "donal.phipps@gmail.com", role = "aut"), person("Tom", "Wolff", email = "tom.wolff@duke.edu", role = "aut"))
-Author: Troy Hernandez [aut, cre],
-  Charlie Thompson [aut],
-  Josiah Parry [aut],
-  Donal Phipps [aut],
-  Tom Wolff [aut]
-Maintainer: Troy Hernandez <troy.hernandez.phd@gmail.com>
-Description: An R wrapper for the 'Spotify' Web API 
+Authors@R: c(person("Troy", "Hernandez", email = "troy@cornball.ai", role = c("aut", "cre"), comment = c(ORCID = "0009-0005-4248-604X")), person("Charlie", "Thompson", email = "chuck@rcharlie.com", role = c("aut")), person("Josiah", "Parry", email = "josiah.parry@yahoo.com", role = "aut"), person("Donal", "Phipps", email = "donal.phipps@gmail.com", role = "aut"), person("Tom", "Wolff", email = "tom.wolff@duke.edu", role = "aut"))
+Description: An R wrapper for the 'Spotify' Web API
   <https://developer.spotify.com/web-api/>.
 Depends: R (>= 3.2)
 Imports:
@@ -17,6 +11,5 @@ Imports:
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
-URL: https://github.com/TroyHernandez/tinyspotifyr
-BugReports: https://github.com/TroyHernandez/tinyspotifyr/issues
+URL: https://github.com/cornball-ai/tinyspotifyr
+BugReports: https://github.com/cornball-ai/tinyspotifyr/issues
