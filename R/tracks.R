@@ -24,6 +24,9 @@ get_track_audio_analysis <- function(id, authorization = get_spotify_access_toke
 
 #' Get audio feature information for a single track identified by its unique Spotify ID.
 #'
+#' @details Deprecated. Spotify restricted \code{GET /v1/audio-features}
+#'   (HTTP 403) in November 2024; it no longer returns data for apps without
+#'   prior access.
 #' @param ids Required. A comma-separated list of the \href{https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids}{Spotify IDs} of the tracks. Maximum: 100 IDs.
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}
 #' @return
@@ -31,6 +34,9 @@ get_track_audio_analysis <- function(id, authorization = get_spotify_access_toke
 #' @export
 
 get_track_audio_features <- function(ids, authorization = get_spotify_access_token()) {
+    .Deprecated(msg = paste("get_track_audio_features(): Spotify restricted",
+        "GET /v1/audio-features (HTTP 403) in November 2024; it no longer",
+        "returns data for apps without prior access."))
     stopifnot(length(ids) <= 100)
     base_url <- 'https://api.spotify.com/v1/audio-features'
     params <- list(

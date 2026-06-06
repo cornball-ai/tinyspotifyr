@@ -16,3 +16,8 @@ Returns a data frame of results containing track audio features data. See \url{h
 \description{
 Get audio feature information for a single track identified by its unique Spotify ID.
 }
+\details{
+Deprecated. Spotify restricted \code{GET /v1/audio-features}
+  (HTTP 403) in November 2024; it no longer returns data for apps without
+  prior access.
+}
