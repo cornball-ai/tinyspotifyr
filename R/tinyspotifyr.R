@@ -3,8 +3,6 @@
 #' See the README on
 #' \href{https://github.com/troyhernandez/tinyspotifyr#readme}{GitHub}
 #'
-#' @importFrom httr RETRY GET accept_json authenticate config content oauth2.0_token oauth_app oauth_endpoint stop_for_status
-#' @importFrom jsonlite fromJSON toJSON
 #' @keywords internal
 "_PACKAGE"
 

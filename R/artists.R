@@ -10,14 +10,10 @@ get_artist <- function(id, authorization = get_spotify_access_token()) {
 
     base_url <- 'https://api.spotify.com/v1/artists'
 
-    params <- list(
-        access_token = authorization
-    )
-    url <- paste0(base_url, "/", id=)
-    res <- GET(url, query = params, encode = 'json')
-    stop_for_status(res)
+    params <- list()
+    url <- paste0(base_url, "/", id)
+    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
 
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
 
     return(res)
 }
@@ -36,13 +32,10 @@ get_artists <- function(ids, authorization = get_spotify_access_token(), include
     base_url <- 'https://api.spotify.com/v1/artists'
 
     params <- list(
-        ids = paste(ids, collapse = ','),
-        access_token = authorization
+        ids = paste(ids, collapse = ',')
     )
-    res <- GET(base_url, query = params, encode = 'json')
-    stop_for_status(res)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
 
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$artists
@@ -93,14 +86,11 @@ get_artist_albums <- function(id, include_groups = c('album', 'single', 'appears
         include_groups = paste(include_groups, collapse = ','),
         market = market,
         limit = limit,
-        offset = offset,
-        access_token = authorization
+        offset = offset
     )
     url <- paste0(base_url, "/", id, "/albums")
-    res <- GET(url, query = params, encode = 'json')
-    stop_for_status(res)
+    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
 
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$items
@@ -131,14 +121,11 @@ get_artist_top_tracks <- function(id, market = 'US', authorization = get_spotify
     }
 
     params <- list(
-        market = market,
-        access_token = authorization
+        market = market
     )
     url <- paste0(base_url, "/", id, "/top-tracks")
-    res <- GET(url, query = params, encode = 'json')
-    stop_for_status(res)
+    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
 
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$tracks
@@ -160,14 +147,10 @@ get_related_artists <- function(id, authorization = get_spotify_access_token(), 
 
     base_url <- 'https://api.spotify.com/v1/artists'
 
-    params <- list(
-        access_token = authorization
-    )
+    params <- list()
     url <- paste0(base_url, "/", id, "/related-artists")
-    res <- GET(url, query = params, encode = 'json')
-    stop_for_status(res)
+    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
 
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$artists

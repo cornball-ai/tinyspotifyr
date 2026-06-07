@@ -43,10 +43,8 @@ get_my_top_artists_or_tracks <- function(type = NULL, limit = 20, offset = 0, ti
         time_range = time_range
     )
     url <- paste0(base_url, "/", type)
-    res <- RETRY('GET', url, config(token = authorization), query = params, encode = 'json')
-    stop_for_status(res)
+    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
 
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$items

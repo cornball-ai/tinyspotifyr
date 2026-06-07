@@ -16,17 +16,14 @@
 add_items_to_playlist <- function(playlist_id, uris, position = NULL, market = "US", authorization = get_spotify_authorization_code()) {
 
     base_url <- 'https://api.spotify.com/v1/playlists'
-    
+
     if(is.null(position)){
-        url <- paste0(base_url, "/", playlist_id, "/tracks?uris=", paste0(uris, collapse = ","), "&market=", market) 
+        url <- paste0(base_url, "/", playlist_id, "/tracks?uris=", paste0(uris, collapse = ","), "&market=", market)
     } else {
-        url <- paste0(base_url, "/", playlist_id, "/tracks?uris=", paste0(uris, collapse = ","), "&market=", market, "&position=", position) 
+        url <- paste0(base_url, "/", playlist_id, "/tracks?uris=", paste0(uris, collapse = ","), "&market=", market, "&position=", position)
     }
-    
-    res <- RETRY('POST', url, config(token = authorization), encode = 'json') #, body = params)
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-    return(res)
+
+    tinyoauth::oauth_request(authorization, url, "POST", flatten = TRUE)
 }
 
 #' Add one or more tracks to a user’s playlist.
@@ -51,10 +48,7 @@ add_tracks_to_playlist <- function(playlist_id, uris, position = NULL, market = 
         market = market,
         position = position
     )
-    res <- RETRY('POST', url, body = params, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-    return(res)
+    tinyoauth::oauth_request(authorization, url, "POST", body = params, flatten = TRUE)
 }
 
 
@@ -80,9 +74,7 @@ change_playlist_details <- function(playlist_id, name = NULL, public = NULL, col
         collaborative  = collaborative,
         description = description
     )
-    res <- RETRY('PUT', url, body = params, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    return(res)
+    tinyoauth::oauth_request(authorization, url, "PUT", body = params, flatten = TRUE)
 }
 
 #' Create a playlist for a Spotify user. (The playlist will be empty until you add tracks.)
@@ -107,10 +99,7 @@ create_playlist <- function(user_id, name, public = TRUE, collaborative = FALSE,
         collaborative  = collaborative,
         description = description
     )
-    res <- RETRY('POST', url, body = params, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-    return(res)
+    tinyoauth::oauth_request(authorization, url, "POST", body = params, flatten = TRUE)
 }
 
 #' Get a list of the playlists owned or followed by the current Spotify user.
@@ -137,10 +126,8 @@ get_my_playlists <- function(limit = 20, offset = 0, authorization = get_spotify
         limit = limit,
         offset = offset
     )
-    res <- RETRY('GET', base_url, query = params, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-    
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
+
     if (!include_meta_info) {
         res <- res$items
     }
@@ -172,9 +159,7 @@ get_user_playlists <- function(user_id, limit = 20, offset = 0, authorization = 
         limit = limit,
         offset = offset
     )
-    res <- RETRY('GET', url, query = params, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
     if (!include_meta_info) {
         res <- res$items
     }
@@ -193,10 +178,7 @@ get_user_playlists <- function(user_id, limit = 20, offset = 0, authorization = 
 get_playlist_cover_image <- function(playlist_id, authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/playlists'
     url <- paste0(base_url, "/", playlist_id, "/images")
-    res <- RETRY('GET', url, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-    return(res)
+    tinyoauth::oauth_request(authorization, url, "GET", flatten = TRUE)
 }
 
 #' Get a playlist owned by a Spotify user.
@@ -220,15 +202,9 @@ get_playlist <- function(playlist_id, fields = NULL, market = NULL, authorizatio
     url <- paste0(base_url, "/", playlist_id)
     params <- list(
         fields = paste(fields, collapse = ','),
-        market = market,
-        access_token = authorization
+        market = market
     )
-
-    res <- RETRY('GET', url, query = params, encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'),
-                           flatten = TRUE)
-    return(res)
+    tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
 }
 
 #' Get full details of the items of a playlist owned by a Spotify user.
@@ -255,20 +231,17 @@ get_playlist <- function(playlist_id, fields = NULL, market = NULL, authorizatio
 #' @export
 
 get_playlist_items <- function(playlist_id, fields = NULL, limit = 100, offset = 0, market = NULL, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
-    
+
     base_url <- 'https://api.spotify.com/v1/playlists'
     url <- paste0(base_url, "/", playlist_id, "/tracks")
     params <- list(
         fields = ifelse(!is.null(fields), paste0('items(', paste0(fields, collapse = ','), ')'), ''),
         limit = limit,
         offset = offset,
-        market = market,
-        access_token = authorization
+        market = market
     )
-    res <- RETRY('GET', url, query = params, encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-    
+    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
+
     if (!include_meta_info) {
         res <- res$items
     }
@@ -306,12 +279,9 @@ get_playlist_tracks <- function(playlist_id, fields = NULL, limit = 100, offset 
         fields = ifelse(!is.null(fields), paste0('items(', paste0(fields, collapse = ','), ')'), ''),
         limit = limit,
         offset = offset,
-        market = market,
-        access_token = authorization
+        market = market
     )
-    res <- RETRY('GET', url, query = params, encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$items
@@ -334,35 +304,12 @@ remove_tracks_from_playlist <- function(playlist_id, uris, authorization = get_s
     base_url <- 'https://api.spotify.com/v1/playlists'
     url <- paste0(base_url, "/", playlist_id, "/tracks/")
 
-    # For DELETE request params URIs should be put in body
+    # For DELETE the URIs go in the body, as an R list; oauth_request JSON-encodes it.
     uris_list <- lapply(uris, function(x) list(uri = x))
-    params <- jsonlite::toJSON(list(tracks = uris_list), auto_unbox = TRUE)
+    params <- list(tracks = uris_list)
 
-    res <- httr::RETRY('DELETE', url, body = params, httr::config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- jsonlite::fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-    return(res)
+    tinyoauth::oauth_request(authorization, url, "DELETE", body = params, flatten = TRUE)
 }
-
-# remove_tracks_from_playlist <- function(playlist_id, uris, positions, market = "US", authorization = get_spotify_authorization_code()) {
-#     base_url <- 'https://api.spotify.com/v1/playlists'
-#     url <- paste0(base_url, "/", playlist_id, "/tracks")
-#     if(!is.null(market)){
-#         url <- paste0(url, "?market=", market)
-#     }
-#     
-#     # For DELETE request params URIs should be put in body
-#     uris_list <- lapply(uris, function(x) list(uri = x))
-#     for(i in 1:length(positions)){
-#         uris_list[[i]]$positions <- list(positions[i])
-#     }
-#     params <- jsonlite::toJSON(list(tracks = uris_list), auto_unbox = TRUE)
-#     
-#     res <- httr::RETRY('DELETE', url, body = params, httr::config(token = authorization), encode = 'json')
-#     stop_for_status(res)
-#     res <- jsonlite::fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-#     return(res)
-# }
 
 #' Add the latest episode of a podcast to a user’s playlist.
 #'
@@ -402,9 +349,5 @@ reorder_replace_playlist_items <- function(playlist_id, uris, authorization = ge
     base_url <- 'https://api.spotify.com/v1/playlists'
     url <- paste0(base_url, "/", playlist_id, "/tracks?uris=",
                   paste0(uris, collapse = ","))
-    res <- httr::RETRY('PUT', url, #body = params,
-                       httr::config(token = authorization), encode = 'json')
-    httr::stop_for_status(res)
-    res <- jsonlite::fromJSON(httr::content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-    return(res)
+    tinyoauth::oauth_request(authorization, url, "PUT", flatten = TRUE)
 }

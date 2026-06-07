@@ -14,14 +14,11 @@ get_show <- function(id, market = "US", authorization = get_spotify_access_token
   base_url <- 'https://api.spotify.com/v1/shows'
   
   params <- list(
-    market = market,
-    access_token = authorization
+    market = market
   )
   url <- paste0(base_url, "/", id)
-  res <- httr::GET(url, query = params, encode = 'json')
-  httr::stop_for_status(res)
+  res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
   
-  res <- jsonlite::fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
   
   return(res)
 }
@@ -43,14 +40,11 @@ get_shows <- function(ids, market = "US", authorization = get_spotify_access_tok
   
   params <- list(
     ids = paste(ids, collapse = ','),
-    market = market,
-    access_token = authorization
+    market = market
   )
   url <- paste0(base_url)
-  res <- httr::GET(url, query = params, encode = 'json')
-  httr::stop_for_status(res)
+  res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
   
-  res <- jsonlite::fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
   
   return(res)
 }
@@ -72,14 +66,11 @@ get_shows_episodes <- function(id, market = "US", authorization = get_spotify_ac
   base_url <- 'https://api.spotify.com/v1/shows'
 
   params <- list(
-    market = market,
-    access_token = authorization
+    market = market
   )
   url <- paste0(base_url, "/", id, "/episodes?market=", market)
-  res <- GET(url, query = params, encode = 'json')
-  stop_for_status(res)
+  res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
   
-  res <- jsonlite::fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
   
   return(res)
 }

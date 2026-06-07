@@ -7,8 +7,6 @@ Description: An R wrapper for the 'Spotify' Web API
   <https://developer.spotify.com/web-api/>.
 Depends: R (>= 4.0)
 Imports:
-  httr,
-  jsonlite,
   tinyoauth
 Remotes: cornball-ai/tinyoauth
 License: MIT + file LICENSE

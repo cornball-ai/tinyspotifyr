@@ -30,9 +30,7 @@ get_my_saved_albums <- function(limit = 20, offset = 0, market = NULL, authoriza
         offset = offset,
         market = market
     )
-    res <- RETRY('GET', base_url, query = params, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$items
@@ -72,9 +70,7 @@ get_my_saved_tracks <- function(limit = 20, offset = 0, market = NULL, authoriza
         offset = offset,
         market = market
     )
-    res <- RETRY('GET', base_url, query = params, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$items

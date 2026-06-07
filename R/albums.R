@@ -19,17 +19,12 @@ get_album <- function(id, market = NULL, authorization = get_spotify_access_toke
     }
 
     params <- list(
-        market = market,
-        access_token = authorization
+        market = market
     )
-    url <- paste0(base_url, "/", playlist_id, "/tracks?market=", market)
 
     url <- paste0(base_url, "/", id)
-    res <- RETRY('GET', url, query = params, encode = 'json')
-    stop_for_status(res)
+    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
 
-    res <- jsonlite::fromJSON(content(res, as = 'text', encoding = 'UTF-8'),
-                              flatten = TRUE)
 
     return(res)
 }
@@ -57,13 +52,10 @@ get_albums <- function(ids, market = NULL, authorization = get_spotify_access_to
 
     params <- list(
         ids = paste(ids, collapse = ','),
-        market = market,
-        access_token = authorization
+        market = market
     )
-    res <- RETRY('GET', base_url, query = params, encode = 'json')
-    stop_for_status(res)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
 
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$albums
@@ -108,14 +100,11 @@ get_album_tracks <- function(id, limit = 20, offset = 0, market = NULL, authoriz
     params <- list(
         market = market,
         offset = offset,
-        limit = limit,
-        access_token = authorization
+        limit = limit
     )
     url <- paste0(base_url, "/", id, "/tracks")
-    res <- RETRY('GET', url, query = params, encode = 'json')
-    stop_for_status(res)
+    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
 
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$items

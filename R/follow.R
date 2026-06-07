@@ -13,8 +13,7 @@ follow_artists_or_users <- function(type, ids, authorization = get_spotify_autho
         type = type,
         ids = paste0(ids, collapse = ',')
     )
-    res <- RETRY('PUT', base_url, config(token = authorization), query = query_params, encode = 'json')
-    stop_for_status(res)
+    res <- tinyoauth::oauth_request(authorization, base_url, "PUT", query = query_params, flatten = TRUE)
     return(res)
 }
 
@@ -35,8 +34,7 @@ follow_playlist <- function(playlist_id, public = FALSE, authorization = get_spo
     params <- list(
         public = public
     )
-    res <- RETRY('PUT', url, config(token = authorization), body = params, encode = 'json')
-    stop_for_status(res)
+    res <- tinyoauth::oauth_request(authorization, url, "PUT", body = params, flatten = TRUE)
     return(res)
 }
 
@@ -53,8 +51,7 @@ follow_playlist <- function(playlist_id, public = FALSE, authorization = get_spo
 unfollow_playlist <- function(playlist_id, authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/playlists'
     url <- paste0(base_url, "/", playlist_id, "/followers")
-    res <- RETRY('DELETE', url, config(token = authorization), encode = 'json')
-    stop_for_status(res)
+    res <- tinyoauth::oauth_request(authorization, url, "DELETE", flatten = TRUE)
     return(res)
 }
 
@@ -75,9 +72,7 @@ get_my_followed_artists <- function(limit = 20, after = NULL, authorization = ge
         limit = limit,
         after = after
     )
-    res <- RETRY('GET', base_url, query = params, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
     res <- res$artists
     if (!include_meta_info) {
         res <- res$items
@@ -101,9 +96,7 @@ check_me_following <- function(type, ids, authorization = get_spotify_authorizat
         type = type,
         ids = paste0(ids, collapse = ',')
     )
-    res <- RETRY('GET', base_url, query = params, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
 
     data.frame(type = type,
                id = ids,
@@ -130,9 +123,7 @@ check_users_following <- function(playlist_id, ids, authorization = get_spotify_
         ids = paste0(ids, collapse = ',')
     )
     url <- paste0(base_url, "/", playlist_id, "/followers/contains")
-    res <- RETRY('GET', url, query = params, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
 
     data.frame(user_id = ids,
                playlist_id = playlist_id,

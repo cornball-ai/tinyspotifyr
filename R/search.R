@@ -74,13 +74,10 @@ search_spotify <- function(q, type = c('album', 'artist', 'playlist', 'track'), 
         market = market,
         limit = limit,
         offset = offset,
-        include_external = include_external,
-        access_token = authorization
+        include_external = include_external
     )
-    res <- RETRY('GET', base_url, query = params, encode = 'json')
-    stop_for_status(res)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
 
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
 
     return(res)
 }

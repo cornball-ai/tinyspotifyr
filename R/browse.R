@@ -11,15 +11,10 @@ get_categories <- function(authorization = get_spotify_access_token(), df = TRUE
 
     url <- 'https://api.spotify.com/v1/browse/categories'
 
-    params <- list(
-        access_token = authorization
-    )
+    params <- list()
 
-    res <- httr::GET(url, query = params, encode = 'json')
-    httr::stop_for_status(res)
+    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
 
-    res <- jsonlite::fromJSON(httr::content(res, as = 'text', encoding = 'UTF-8'),
-                              flatten = TRUE)
 
     if(df){
         res <- res$categories$items
@@ -44,15 +39,11 @@ get_category <- function(category_id, country = NULL, locale = NULL, authorizati
 
     params <- list(
         country = country,
-        locale = locale,
-        access_token = authorization
+        locale = locale
     )
 
-    res <- httr::RETRY('GET', url, query = params, encode = 'json')
-    httr::stop_for_status(res)
-    res0 <- jsonlite::fromJSON(httr::content(res, as = 'text',
-                                             encoding = 'UTF-8'),
-                               flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
+    res0 <- res
     res <- as.data.frame(res0, stringsAsFactors = FALSE)
     return(res)
 }
@@ -81,12 +72,10 @@ get_category_playlists <- function(category_id, market = NULL, limit = 20, offse
     url <- paste0(base_url, "/", category_id, "/playlists")
 
     params <- list(market = market, limit = limit,
-                   offset = offset, access_token = authorization)
+                   offset = offset)
 
-    res <- RETRY('GET', url, query = params, encode = 'json')
-    stop_for_status(res)
+    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
 
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
     res <- res$playlists
 
     if(!include_meta_info){
@@ -117,12 +106,9 @@ get_new_releases <- function(country = NULL, limit = 20, offset = 0, authorizati
     params <- list(
         country = country,
         limit = limit,
-        offset = offset,
-        access_token = authorization
+        offset = offset
     )
-    res <- RETRY('GET', base_url, query = params, encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
     res <- res$albums
 
     if(!include_meta_info){
@@ -157,12 +143,9 @@ get_featured_playlists <- function(locale = NULL, country = NULL, timestamp = NU
         country = country,
         timestamp = timestamp,
         limit = limit,
-        offset = offset,
-        access_token = authorization
+        offset = offset
     )
-    res <- RETRY('GET', base_url, query = params, encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
     res$playlists$message <- res$message
     res <- res$playlists
     if (!include_meta_info) {
@@ -340,13 +323,10 @@ get_recommendations <- function(limit = 20,
         target_speechiness = target_speechiness,
         target_tempo = target_tempo,
         target_time_signature = target_time_signature,
-        target_valence = target_valence,
-        access_token = authorization
+        target_valence = target_valence
     )
 
-    res <- RETRY('GET', base_url, query = params, encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
     if (!include_seeds_in_response) {
         res <- res$tracks
     }
