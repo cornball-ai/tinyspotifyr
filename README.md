@@ -9,7 +9,7 @@
 ## Overview
 
 tinyspotifyr is an R wrapper for the Spotify’s Web API. It is a fork of
-[spotifyr](https://github.com/sillyplots/spotifyr) with minimal
+[spotifyr](https://cran.r-project.org/package=spotifyr) by Charlie Thompson, with minimal
 dependencies inspired by the [tinyverse](https://www.tinyverse.org/). The
 focus of this package is to mirror the spotify api in R.
 
