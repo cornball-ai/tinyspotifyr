@@ -13,7 +13,7 @@ get_playlist_cover_image(playlist_id,
 Current playlist image for both Public and Private playlists of any user are retrievable on provision of a valid access token.}
 }
 \value{
-Returns a data frame of results containing playlist cover image information. See the official \href{https://developer.spotify.com/documentation/web-api/reference/playlists/get-playlist-cover/}{Spotify Web API Documentation} for more information.
+Returns a data frame of results containing playlist cover image information. See the official \href{https://developer.spotify.com/documentation/web-api}{Spotify Web API Documentation} for more information.
 }
 \description{
 Get the current image associated with a specific playlist.

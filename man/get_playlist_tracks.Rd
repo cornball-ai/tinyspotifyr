@@ -33,7 +33,7 @@ An ISO 3166-1 alpha-2 country code or the string \code{"from_token"}. Provide th
 \item{include_meta_info}{Optional. Boolean indicating whether to include full result, with meta information such as \code{"total"}, and \code{"limit"}. Defaults to \code{FALSE}.}
 }
 \value{
-Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api/reference/users-profile/get-current-users-profile/} for more information.
+Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 }
 \description{
 Get full details of the tracks of a playlist owned by a Spotify user.

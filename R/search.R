@@ -1,6 +1,6 @@
 #' Search for an item
 #'
-#' Get Spotify Catalog information about artists, albums, tracks or playlists that match a keyword string. For more information see the official \href{https://developer.spotify.com/documentation/web-api/reference/#category-search}{documentation}.
+#' Get Spotify Catalog information about artists, albums, tracks or playlists that match a keyword string. For more information see the official \href{https://developer.spotify.com/documentation/web-api}{documentation}.
 #' @param q Required. \cr
 #' Search query keywords and optional field filters and operators.
 #' @param type A character vector of item types to search across. \cr

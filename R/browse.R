@@ -4,7 +4,7 @@
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization Guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}
 #'
 #' @return
-#' Returns a data frame of results containing album data. See \url{https://developer.spotify.com/documentation/web-api/reference/browse/get-list-categories/} for more information.
+#' Returns a data frame of results containing album data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
 get_categories <- function(authorization = get_spotify_access_token(), df = TRUE) {
@@ -35,7 +35,7 @@ get_categories <- function(authorization = get_spotify_access_token(), df = TRUE
 #' @param locale Optional. The desired language, consisting of an \href{https://en.wikipedia.org/wiki/ISO_639-1}{ISO 639-1} language code and an \href{https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2}{ISO 3166-1 alpha-2 country code}, joined by an underscore. For example: \code{es_MX}, meaning "Spanish (Mexico)". Provide this parameter if you want the category strings returned in a particular language. Note that, if \code{locale} is not supplied, or if the specified language is not available, the category strings returned will be in the Spotify default language (American English).
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}
 #' @return
-#' Returns a list of results containing category information. See \url{https://developer.spotify.com/documentation/web-api/reference/users-profile/get-current-users-profile/} for more information.
+#' Returns a list of results containing category information. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
 get_category <- function(category_id, country = NULL, locale = NULL, authorization = get_spotify_access_token()) {
@@ -67,7 +67,7 @@ get_category <- function(category_id, country = NULL, locale = NULL, authorizati
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}
 #' @param include_meta_info Optional. Boolean indicating whether to include full result, with meta information such as \code{"total"}, and \code{"limit"}. Defaults to \code{FALSE}.
 #' @return
-#' Returns a data frame of results containing category playlists. See \url{https://developer.spotify.com/documentation/web-api/reference/users-profile/get-current-users-profile/} for more information.
+#' Returns a data frame of results containing category playlists. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 #'
 #' @examples
@@ -103,7 +103,7 @@ get_category_playlists <- function(category_id, market = NULL, limit = 20, offse
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}
 #' @param include_meta_info Optional. Boolean indicating whether to include full result, with meta information such as \code{"country"}, \code{"offset"}, and \code{"limit"}. Defaults to \code{FALSE}.
 #' @return
-#' Returns a data frame of results containing new releases. See \url{https://developer.spotify.com/documentation/web-api/reference/users-profile/get-current-users-profile/} for more information.
+#' Returns a data frame of results containing new releases. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 #'
 #' @examples
@@ -141,7 +141,7 @@ get_new_releases <- function(country = NULL, limit = 20, offset = 0, authorizati
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}
 #' @param include_meta_info Optional. Boolean indicating whether to include full result, with meta information such as \code{"total"}, and \code{"limit"}. Defaults to \code{FALSE}.
 #' @return
-#' Returns a data frame of results containing featured playlists. See \url{https://developer.spotify.com/documentation/web-api/reference/users-profile/get-current-users-profile/} for more information.
+#' Returns a data frame of results containing featured playlists. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 #'
 #' @examples
@@ -218,12 +218,12 @@ get_featured_playlists <- function(locale = NULL, country = NULL, timestamp = NU
 #' @param target_time_signature Optional. Integer indicating a target value for recommended tracks' time signature. Tracks with the attribute values nearest to the target values will be preferred. For example, you might request \code{target_energy = 0.6} and \code{target_danceability = 0.8}. All target values will be weighed equally in ranking results.
 #' @param target_valence Optional. Numeric value between 0 and 1 indicating a target value for recommended tracks' valence. Tracks with the attribute values nearest to the target values will be preferred. For example, you might request \code{target_energy = 0.6} and \code{target_danceability = 0.8}. All target values will be weighed equally in ranking results.
 #' @param seed_artists A character vector of \href{https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids}{Spotify IDs} for seed artists. Up to 5 seed values may be provided in any combination of \code{seed_artists}, \code{seed_tracks} and \code{seed_genres}.
-#' @param seed_genres A character vector of any genres in the set of \href{https://developer.spotify.com/documentation/web-api/reference/browse/get-recommendations/#available-genre-seeds}{available genre seeds}. Up to 5 seed values may be provided in any combination of \code{seed_artists}, \code{seed_tracks} and \code{seed_genres}.
+#' @param seed_genres A character vector of any genres in the set of \href{https://developer.spotify.com/documentation/web-api}{available genre seeds}. Up to 5 seed values may be provided in any combination of \code{seed_artists}, \code{seed_tracks} and \code{seed_genres}.
 #' @param seed_tracks A character vector of \href{https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids}{Spotify IDs} for a seed track. Up to 5 seed values may be provided in any combination of \code{seed_artists}, \code{seed_tracks} and \code{seed_genres}.
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}
 #' @param include_seeds_in_response Optional. Boolean for whether to include seed object in response. Defaults to \code{FALSE}.
 #' @return
-#' Returns a data frame of results recommendations. See the official \href{https://developer.spotify.com/documentation/web-api/reference/browse/get-recommendations/}{Spotify Web API documentation} for more information.
+#' Returns a data frame of results recommendations. See the official \href{https://developer.spotify.com/documentation/web-api}{Spotify Web API documentation} for more information.
 #' @details Deprecated. Spotify removed \code{GET /v1/recommendations}
 #'   (HTTP 404) in November 2024; the endpoint no longer exists.
 #' @export

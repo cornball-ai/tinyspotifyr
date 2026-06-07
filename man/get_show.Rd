@@ -16,7 +16,7 @@ If not given, results will be returned for all markets and you are likely to get
 \item{authorization}{Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization Guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}}
 }
 \value{
-Returns a data frame of results containing show data. See \url{https://developer.spotify.com/documentation/web-api/reference/shows/get-a-show/} for more information.
+Returns a data frame of results containing show data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 }
 \description{
 Get Spotify catalog information for a single show identified by their unique Spotify ID.

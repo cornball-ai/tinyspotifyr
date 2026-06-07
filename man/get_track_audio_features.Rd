@@ -11,7 +11,7 @@ get_track_audio_features(ids, authorization = get_spotify_access_token())
 \item{authorization}{Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}}
 }
 \value{
-Returns a data frame of results containing track audio features data. See \url{https://developer.spotify.com/documentation/web-api/reference/tracks/get-several-audio-features/} for more information.
+Returns a data frame of results containing track audio features data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 }
 \description{
 Get audio feature information for a single track identified by its unique Spotify ID.

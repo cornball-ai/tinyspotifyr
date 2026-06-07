@@ -52,7 +52,7 @@ By default external content is filtered out from responses.}
 Returns a data frame of results containing search data.
 }
 \description{
-Get Spotify Catalog information about artists, albums, tracks or playlists that match a keyword string. For more information see the official \href{https://developer.spotify.com/documentation/web-api/reference/#category-search}{documentation}.
+Get Spotify Catalog information about artists, albums, tracks or playlists that match a keyword string. For more information see the official \href{https://developer.spotify.com/documentation/web-api}{documentation}.
 }
 \examples{
 \dontrun{

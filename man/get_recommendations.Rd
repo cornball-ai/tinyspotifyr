@@ -35,7 +35,7 @@ get_recommendations(limit = 20, market = NULL, seed_artists = NULL,
 
 \item{seed_artists}{A character vector of \href{https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids}{Spotify IDs} for seed artists. Up to 5 seed values may be provided in any combination of \code{seed_artists}, \code{seed_tracks} and \code{seed_genres}.}
 
-\item{seed_genres}{A character vector of any genres in the set of \href{https://developer.spotify.com/documentation/web-api/reference/browse/get-recommendations/#available-genre-seeds}{available genre seeds}. Up to 5 seed values may be provided in any combination of \code{seed_artists}, \code{seed_tracks} and \code{seed_genres}.}
+\item{seed_genres}{A character vector of any genres in the set of \href{https://developer.spotify.com/documentation/web-api}{available genre seeds}. Up to 5 seed values may be provided in any combination of \code{seed_artists}, \code{seed_tracks} and \code{seed_genres}.}
 
 \item{seed_tracks}{A character vector of \href{https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids}{Spotify IDs} for a seed track. Up to 5 seed values may be provided in any combination of \code{seed_artists}, \code{seed_tracks} and \code{seed_genres}.}
 
@@ -128,7 +128,7 @@ get_recommendations(limit = 20, market = NULL, seed_artists = NULL,
 \item{include_seeds_in_response}{Optional. Boolean for whether to include seed object in response. Defaults to \code{FALSE}.}
 }
 \value{
-Returns a data frame of results recommendations. See the official \href{https://developer.spotify.com/documentation/web-api/reference/browse/get-recommendations/}{Spotify Web API documentation} for more information.
+Returns a data frame of results recommendations. See the official \href{https://developer.spotify.com/documentation/web-api}{Spotify Web API documentation} for more information.
 }
 \description{
 Create a playlist-style listening experience based on seed artists, tracks and genres.

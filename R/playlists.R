@@ -128,7 +128,7 @@ create_playlist <- function(user_id, name, public = TRUE, collaborative = FALSE,
 #' Collaborative playlists are only retrievable for the current user and requires the \code{playlist-read-collaborative} \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/#list-of-scopes}{scope} to have been authorized by the user.
 #' @param include_meta_info Optional. Boolean indicating whether to include full result, with meta information such as \code{"total"}, and \code{"limit"}. Defaults to \code{FALSE}.
 #' @return
-#' Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api/reference/users-profile/get-current-users-profile/} for more information.
+#' Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
 get_my_playlists <- function(limit = 20, offset = 0, authorization = get_spotify_authorization_code(), include_meta_info = FALSE) {
@@ -163,7 +163,7 @@ get_my_playlists <- function(limit = 20, offset = 0, authorization = get_spotify
 #' Collaborative playlists are only retrievable for the current user and requires the \code{playlist-read-collaborative} \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/#list-of-scopes}{scope} to have been authorized by the user.
 #' @param include_meta_info Optional. Boolean indicating whether to include full result, with meta information such as \code{"total"}, and \code{"limit"}. Defaults to \code{FALSE}.
 #' @return
-#' Returns a data frame of results containing user playlist information. See the official \href{https://developer.spotify.com/documentation/web-api/reference/playlists/get-list-users-playlists/}{Spotify Web API documentation} for more information.
+#' Returns a data frame of results containing user playlist information. See the official \href{https://developer.spotify.com/documentation/web-api}{Spotify Web API documentation} for more information.
 #' @export
 get_user_playlists <- function(user_id, limit = 20, offset = 0, authorization = get_spotify_authorization_code(), include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/users'
@@ -187,7 +187,7 @@ get_user_playlists <- function(user_id, limit = 20, offset = 0, authorization = 
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization Guide} for more details. Defaults to \code{spotifyr::get_spotify_authorization_code()}. The access token must have been issued on behalf of the current user. \cr
 #' Current playlist image for both Public and Private playlists of any user are retrievable on provision of a valid access token.
 #' @return
-#' Returns a data frame of results containing playlist cover image information. See the official \href{https://developer.spotify.com/documentation/web-api/reference/playlists/get-playlist-cover/}{Spotify Web API Documentation} for more information.
+#' Returns a data frame of results containing playlist cover image information. See the official \href{https://developer.spotify.com/documentation/web-api}{Spotify Web API Documentation} for more information.
 #' @export
 
 get_playlist_cover_image <- function(playlist_id, authorization = get_spotify_authorization_code()) {
@@ -212,7 +212,7 @@ get_playlist_cover_image <- function(playlist_id, authorization = get_spotify_au
 #' An ISO 3166-1 alpha-2 country code or the string \code{"from_token"}. Provide this parameter if you want to apply \href{https://developer.spotify.com/documentation/general/guides/track-relinking-guide/}{Track Relinking}
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization guide} for more details. Both Public and Private playlists belonging to any user are retrievable on provision of a valid access token. Defaults to \code{spotifyr::get_spotify_access_token()}
 #' @return
-#' Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api/reference/users-profile/get-current-users-profile/} for more information.
+#' Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
 get_playlist <- function(playlist_id, fields = NULL, market = NULL, authorization = get_spotify_access_token()) {
@@ -251,7 +251,7 @@ get_playlist <- function(playlist_id, fields = NULL, market = NULL, authorizatio
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization guide} for more details. Both Public and Private playlists belonging to any user are retrievable on provision of a valid access token. Defaults to \code{spotifyr::get_spotify_access_token()}
 #' @param include_meta_info Optional. Boolean indicating whether to include full result, with meta information such as \code{"total"}, and \code{"limit"}. Defaults to \code{FALSE}.
 #' @return
-#' Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api/reference/users-profile/get-current-users-profile/} for more information.
+#' Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
 get_playlist_items <- function(playlist_id, fields = NULL, limit = 100, offset = 0, market = NULL, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
@@ -295,7 +295,7 @@ get_playlist_items <- function(playlist_id, fields = NULL, limit = 100, offset =
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization guide} for more details. Both Public and Private playlists belonging to any user are retrievable on provision of a valid access token. Defaults to \code{spotifyr::get_spotify_access_token()}
 #' @param include_meta_info Optional. Boolean indicating whether to include full result, with meta information such as \code{"total"}, and \code{"limit"}. Defaults to \code{FALSE}.
 #' @return
-#' Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api/reference/users-profile/get-current-users-profile/} for more information.
+#' Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
 get_playlist_tracks <- function(playlist_id, fields = NULL, limit = 100, offset = 0, market = NULL, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
@@ -336,7 +336,7 @@ remove_tracks_from_playlist <- function(playlist_id, uris, authorization = get_s
 
     # For DELETE request params URIs should be put in body
     uris_list <- lapply(uris, function(x) list(uri = x))
-    params <- jsonlite::toJSON(list(tracks = uris_list), auto_unbox = T)
+    params <- jsonlite::toJSON(list(tracks = uris_list), auto_unbox = TRUE)
 
     res <- httr::RETRY('DELETE', url, body = params, httr::config(token = authorization), encode = 'json')
     stop_for_status(res)
@@ -356,7 +356,7 @@ remove_tracks_from_playlist <- function(playlist_id, uris, authorization = get_s
 #     for(i in 1:length(positions)){
 #         uris_list[[i]]$positions <- list(positions[i])
 #     }
-#     params <- jsonlite::toJSON(list(tracks = uris_list), auto_unbox = T)
+#     params <- jsonlite::toJSON(list(tracks = uris_list), auto_unbox = TRUE)
 #     
 #     res <- httr::RETRY('DELETE', url, body = params, httr::config(token = authorization), encode = 'json')
 #     stop_for_status(res)

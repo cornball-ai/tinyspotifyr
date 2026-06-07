@@ -24,7 +24,7 @@ get_featured_playlists(locale = NULL, country = NULL, timestamp = NULL,
 \item{include_meta_info}{Optional. Boolean indicating whether to include full result, with meta information such as \code{"total"}, and \code{"limit"}. Defaults to \code{FALSE}.}
 }
 \value{
-Returns a data frame of results containing featured playlists. See \url{https://developer.spotify.com/documentation/web-api/reference/users-profile/get-current-users-profile/} for more information.
+Returns a data frame of results containing featured playlists. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 }
 \description{
 Get a list of Spotify featured playlists (shown, for example, on a Spotify player’s ‘Browse’ tab).

@@ -27,7 +27,7 @@ Collaborative playlists are only retrievable for the current user and requires t
 \item{include_meta_info}{Optional. Boolean indicating whether to include full result, with meta information such as \code{"total"}, and \code{"limit"}. Defaults to \code{FALSE}.}
 }
 \value{
-Returns a data frame of results containing user playlist information. See the official \href{https://developer.spotify.com/documentation/web-api/reference/playlists/get-list-users-playlists/}{Spotify Web API documentation} for more information.
+Returns a data frame of results containing user playlist information. See the official \href{https://developer.spotify.com/documentation/web-api}{Spotify Web API documentation} for more information.
 }
 \description{
 Get a list of the playlists owned or followed by a Spotify user.

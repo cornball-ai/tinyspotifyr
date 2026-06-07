@@ -4,7 +4,7 @@
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}. The access token must have been issued on behalf of the current user. \cr
 #' The access token must have the \code{user-read-currently-playing} and/or \code{user-read-playback-state} scope authorized in order to read information.
 #' @return
-#' Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api/reference/users-profile/get-current-users-profile/} for more information.
+#' Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
 get_my_currently_playing <- function(market = NULL, authorization = get_spotify_authorization_code()) {
@@ -50,7 +50,7 @@ get_my_recently_played <- function(limit = 20, after = NULL, before = NULL, auth
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization Guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}. The access token must have been issued on behalf of the current user. \cr
 #' The access token must have the \code{user-read-playback-state} scope authorized in order to read information.
 #' @return
-#' Returns a data frame of results containing user device information. See the official Spotify Web API \href{https://developer.spotify.com/documentation/web-api/reference/player/get-a-users-available-devices/}{documentation} for more information.
+#' Returns a data frame of results containing user device information. See the official Spotify Web API \href{https://developer.spotify.com/documentation/web-api}{documentation} for more information.
 #' @export
 
 get_my_devices <- function(authorization = get_spotify_authorization_code()) {
@@ -67,7 +67,7 @@ get_my_devices <- function(authorization = get_spotify_authorization_code()) {
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization Guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}. The access token must have been issued on behalf of the current user. \cr
 #' The access token must have the \code{user-read-playback-state} scope authorized in order to read information.
 #' @return
-#' Returns a list containing user playback information. See the official Spotify Web API \href{https://developer.spotify.com/documentation/web-api/reference/player/get-information-about-the-users-current-playback/}{documentation} for more information.
+#' Returns a list containing user playback information. See the official Spotify Web API \href{https://developer.spotify.com/documentation/web-api}{documentation} for more information.
 #' @export
 
 get_my_current_playback <- function(market = NULL, authorization = get_spotify_authorization_code()) {
