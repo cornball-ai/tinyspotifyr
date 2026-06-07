@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-tinyspotifyr is an R wrapper for the Spotify's Web API. It is a fork of [spotifyr](https://github.com/charlie86/spotifyr) with minimal dependencies inspired by the [tinyverse](http://www.tinyverse.org/). The focus of this package is to mirror the spotify api in R.
+tinyspotifyr is an R wrapper for the Spotify's Web API. It is a fork of [spotifyr](https://cran.r-project.org/package=spotifyr) by Charlie Thompson, since revived at [its current location](https://github.com/sillyplots/spotifyr), with minimal dependencies inspired by the [tinyverse](https://www.tinyverse.org/). The focus of this package is to mirror the spotify api in R.
 
 ## Installation
 

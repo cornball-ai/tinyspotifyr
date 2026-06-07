@@ -3,7 +3,7 @@
 #' @param id The \href{https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids}{Spotify ID} for the artist.
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization Guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}
 #' @return
-#' Returns a data frame of results containing album data. See \url{https://developer.spotify.com/documentation/web-api/reference/albums/get-album/} for more information.
+#' Returns a data frame of results containing album data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
 get_artist <- function(id, authorization = get_spotify_access_token()) {
@@ -28,7 +28,7 @@ get_artist <- function(id, authorization = get_spotify_access_token()) {
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}
 #' @param include_meta_info Optional. Boolean indicating whether to include full result, with meta information such as \code{"total"}, and \code{"limit"}. Defaults to \code{FALSE}.
 #' @return
-#' Returns a data frame of results containing artist data. See \url{https://developer.spotify.com/documentation/web-api/reference/artists/get-several-artists/} for more information.
+#' Returns a data frame of results containing artist data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
 get_artists <- function(ids, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
@@ -76,7 +76,7 @@ get_artists <- function(ids, authorization = get_spotify_access_token(), include
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}
 #' @param include_meta_info Optional. Boolean indicating whether to include full result, with meta information such as \code{"total"}, and \code{"limit"}. Defaults to \code{FALSE}.
 #' @return
-#' Returns a data frame of results containing artist data. See \url{https://developer.spotify.com/documentation/web-api/reference/artists/get-several-artists/} for more information.
+#' Returns a data frame of results containing artist data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
 get_artist_albums <- function(id, include_groups = c('album', 'single', 'appears_on', 'compilation'), market = NULL, limit = 20, offset = 0, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
@@ -117,7 +117,7 @@ get_artist_albums <- function(id, include_groups = c('album', 'single', 'appears
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}
 #' @param include_meta_info Optional. Boolean indicating whether to include full result, with meta information such as \code{"total"}, and \code{"limit"}. Defaults to \code{FALSE}.
 #' @return
-#' Returns a data frame of results containing artist data. See \url{https://developer.spotify.com/documentation/web-api/reference/artists/get-several-artists/} for more information.
+#' Returns a data frame of results containing artist data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
 get_artist_top_tracks <- function(id, market = 'US', authorization = get_spotify_access_token(), include_meta_info = FALSE) {
@@ -153,7 +153,7 @@ get_artist_top_tracks <- function(id, market = 'US', authorization = get_spotify
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}
 #' @param include_meta_info Optional. Boolean indicating whether to include full result, with meta information such as \code{"total"}, and \code{"limit"}. Defaults to \code{FALSE}.
 #' @return
-#' Returns a data frame of results containing artist data. See \url{https://developer.spotify.com/documentation/web-api/reference/artists/get-several-artists/} for more information.
+#' Returns a data frame of results containing artist data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
 get_related_artists <- function(id, authorization = get_spotify_access_token(), include_meta_info = FALSE) {

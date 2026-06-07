@@ -7,7 +7,7 @@
 #' If not given, results will be returned for all markets and you are likely to get duplicate results per album, one for each market in which the album is available!
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization Guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}
 #' @return
-#' Returns a data frame of results containing show data. See \url{https://developer.spotify.com/documentation/web-api/reference/shows/get-a-show/} for more information.
+#' Returns a data frame of results containing show data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
 get_show <- function(id, market = "US", authorization = get_spotify_access_token()){
@@ -35,7 +35,7 @@ get_show <- function(id, market = "US", authorization = get_spotify_access_token
 #' If not given, results will be returned for all markets and you are likely to get duplicate results per album, one for each market in which the album is available!
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization Guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}
 #' @return
-#' Returns a data frame of results containing show data. See \url{https://developer.spotify.com/documentation/web-api/reference/shows/get-a-show/} for more information.
+#' Returns a data frame of results containing show data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
 get_shows <- function(ids, market = "US", authorization = get_spotify_access_token()){
@@ -64,7 +64,7 @@ get_shows <- function(ids, market = "US", authorization = get_spotify_access_tok
 #' If not given, results will be returned for all markets and you are likely to get duplicate results per album, one for each market in which the album is available!
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization Guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}
 #' @return
-#' Returns a data frame of results containing the episode data for a show. See \url{https://developer.spotify.com/documentation/web-api/reference/shows/get-shows-episodes/} for more information.
+#' Returns a data frame of results containing the episode data for a show. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
 get_shows_episodes <- function(id, market = "US", authorization = get_spotify_access_token()) {
@@ -93,7 +93,7 @@ get_shows_episodes <- function(id, market = "US", authorization = get_spotify_ac
 #' If not given, results will be returned for all markets and you are likely to get duplicate results per album, one for each market in which the album is available!
 #' @param authorization Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization Guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}
 #' @return
-#' Returns a string containing the latest episode data for a show. See \url{https://developer.spotify.com/documentation/web-api/reference/shows/get-shows-episodes/} for more information.
+#' Returns a string containing the latest episode data for a show. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
 get_latest_episode <- function(id, market = "US", authorization = get_spotify_authorization_code()){

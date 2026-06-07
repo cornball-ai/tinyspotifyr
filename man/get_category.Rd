@@ -16,7 +16,7 @@ get_category(category_id, country = NULL, locale = NULL,
 \item{authorization}{Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}}
 }
 \value{
-Returns a list of results containing category information. See \url{https://developer.spotify.com/documentation/web-api/reference/users-profile/get-current-users-profile/} for more information.
+Returns a list of results containing category information. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 }
 \description{
 Get a single category used to tag items in Spotify (on, for example, the Spotify player’s “Browse” tab).

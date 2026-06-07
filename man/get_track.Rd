@@ -14,7 +14,7 @@ An ISO 3166-1 alpha-2 country code or the string \code{"from_token"}. Provide th
 \item{authorization}{Required. A valid access token from the Spotify Accounts service. See the \href{https://developer.spotify.com/documentation/general/guides/authorization-guide/}{Web API authorization guide} for more details. Defaults to \code{spotifyr::get_spotify_access_token()}}
 }
 \value{
-Returns a data frame of results containing track data. See \url{https://developer.spotify.com/documentation/web-api/reference/tracks/get-several-tracks/} for more information.
+Returns a data frame of results containing track data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 }
 \description{
 Get Spotify catalog information for a single track identified by its unique Spotify ID.

@@ -11,7 +11,7 @@ get_categories(authorization = get_spotify_access_token(), df = TRUE)
 \item{df}{(default TRUE). Should the results be formatted as a data frame? If FALSE, the full response JSON will be returned as a list.}
 }
 \value{
-Returns a data frame of results containing album data. See \url{https://developer.spotify.com/documentation/web-api/reference/browse/get-list-categories/} for more information.
+Returns a data frame of results containing album data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 }
 \description{
 Get a list of Spotify categories

@@ -21,7 +21,7 @@ get_category_playlists(category_id, market = NULL, limit = 20, offset = 0,
 \item{include_meta_info}{Optional. Boolean indicating whether to include full result, with meta information such as \code{"total"}, and \code{"limit"}. Defaults to \code{FALSE}.}
 }
 \value{
-Returns a data frame of results containing category playlists. See \url{https://developer.spotify.com/documentation/web-api/reference/users-profile/get-current-users-profile/} for more information.
+Returns a data frame of results containing category playlists. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 }
 \description{
 Get a list of Spotify playlists tagged with a particular category.

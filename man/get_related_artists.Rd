@@ -14,7 +14,7 @@ get_related_artists(id, authorization = get_spotify_access_token(),
 \item{include_meta_info}{Optional. Boolean indicating whether to include full result, with meta information such as \code{"total"}, and \code{"limit"}. Defaults to \code{FALSE}.}
 }
 \value{
-Returns a data frame of results containing artist data. See \url{https://developer.spotify.com/documentation/web-api/reference/artists/get-several-artists/} for more information.
+Returns a data frame of results containing artist data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 }
 \description{
 Get Spotify catalog information about artists similar to a given artist. Similarity is based on analysis of the Spotify community’s listening history.

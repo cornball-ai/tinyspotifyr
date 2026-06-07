@@ -29,7 +29,7 @@ Use with limit to get the next set of entities.}
 \item{include_meta_info}{Optional. Boolean indicating whether to include full result, with meta information such as \code{"total"}, and \code{"limit"}. Defaults to \code{FALSE}.}
 }
 \value{
-Returns a data frame of results containing track or album data. See the official API \href{https://developer.spotify.com/documentation/web-api/reference/personalization/get-users-top-artists-and-tracks/}{documentation} for more information.
+Returns a data frame of results containing track or album data. See the official API \href{https://developer.spotify.com/documentation/web-api}{documentation} for more information.
 }
 \description{
 Get the current user’s top artists or tracks based on calculated affinity.

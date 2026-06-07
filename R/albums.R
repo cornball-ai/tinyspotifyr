@@ -5,7 +5,7 @@
 #' @param market Optional. \cr
 #' An \href{https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2}{ISO 3166-1 alpha-2 country code} or the string \code{"from_token"}. Provide this parameter if you want to apply \href{https://developer.spotify.com/documentation/general/guides/track-relinking-guide/}{Track Relinking}
 #' @return
-#' Returns a data frame of results containing album data. See the \href{https://developer.spotify.com/documentation/web-api/reference/albums/get-album/}{official documentation} for more information.
+#' Returns a data frame of results containing album data. See the \href{https://developer.spotify.com/documentation/web-api}{official documentation} for more information.
 #' @export
 
 get_album <- function(id, market = NULL, authorization = get_spotify_access_token()) {
@@ -42,7 +42,7 @@ get_album <- function(id, market = NULL, authorization = get_spotify_access_toke
 #' An \href{https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2}{ISO 3166-1 alpha-2 country code} or the string \code{"from_token"}. Provide this parameter if you want to apply \href{https://developer.spotify.com/documentation/general/guides/track-relinking-guide/}{Track Relinking}
 #' @param include_meta_info Optional. Boolean indicating whether to include full result, with meta information such as \code{"total"}, and \code{"limit"}. Defaults to \code{FALSE}.
 #' @return
-#' Returns a data frame of results containing album data. See \url{https://developer.spotify.com/documentation/web-api/reference/albums/get-album/} for more information.
+#' Returns a data frame of results containing album data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
 get_albums <- function(ids, market = NULL, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
@@ -92,7 +92,7 @@ get_albums <- function(ids, market = NULL, authorization = get_spotify_access_to
 #' An \href{https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2}{ISO 3166-1 alpha-2 country code} or the string \code{"from_token"}. Provide this parameter if you want to apply \href{https://developer.spotify.com/documentation/general/guides/track-relinking-guide/}{Track Relinking}
 #' @param include_meta_info Optional. Boolean indicating whether to include full result, with meta information such as \code{"total"}, and \code{"limit"}. Defaults to \code{FALSE}.
 #' @return
-#' Returns a data frame of results containing album data. See the official API \href{https://developer.spotify.com/documentation/web-api/reference/albums/get-several-albums/}{documentation} for more information.
+#' Returns a data frame of results containing album data. See the official API \href{https://developer.spotify.com/documentation/web-api}{documentation} for more information.
 #' @export
 
 get_album_tracks <- function(id, limit = 20, offset = 0, market = NULL, authorization = get_spotify_access_token(), include_meta_info = FALSE) {

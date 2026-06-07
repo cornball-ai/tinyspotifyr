@@ -13,7 +13,7 @@ get_my_current_playback(market = NULL,
 The access token must have the \code{user-read-playback-state} scope authorized in order to read information.}
 }
 \value{
-Returns a list containing user playback information. See the official Spotify Web API \href{https://developer.spotify.com/documentation/web-api/reference/player/get-information-about-the-users-current-playback/}{documentation} for more information.
+Returns a list containing user playback information. See the official Spotify Web API \href{https://developer.spotify.com/documentation/web-api}{documentation} for more information.
 }
 \description{
 Get information about the user’s current playback state, including track, track progress, and active device.
