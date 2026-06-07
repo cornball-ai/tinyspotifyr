@@ -8,17 +8,19 @@ get_spotify_authorization_code(client_id = Sys.getenv("SPOTIFY_CLIENT_ID"),
                                scope = tinyspotifyr::scopes)
 }
 \arguments{
-\item{client_id}{Defaults to System Envioronment variable "SPOTIFY_CLIENT_ID"}
+\item{client_id}{Defaults to system environment variable "SPOTIFY_CLIENT_ID"}
 
-\item{client_secret}{Defaults to System Envioronment variable "SPOTIFY_CLIENT_SECRET"}
+\item{client_secret}{Defaults to system environment variable "SPOTIFY_CLIENT_SECRET"}
 
-\item{scope}{Space delimited string of spotify scopes, found here: https://developer.spotify.com/documentation/general/guides/scopes/. All scopes are selected by default}
+\item{scope}{Spotify scopes; all are requested by default.}
 }
 \value{
-Returns an environment with access token data.
+A tinyoauth token (carries the access and refresh tokens).
 }
 \description{
-This function creates a Spotify access token.
+Obtains a user-authorized token via the authorization-code grant, with
+caching and refresh. If a legacy httr \code{.httr-oauth} file is present, its
+authorization is carried over (refreshed) so no new browser login is needed.
 }
 \examples{
 \dontrun{

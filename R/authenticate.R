@@ -1,54 +1,64 @@
+# authenticate.R
+# Spotify OAuth via tinyoauth. Client-credentials and user (authorization-code)
+# tokens, with a back-compat path that carries over an existing httr .httr-oauth
+# cache so prior authorizations keep working without a fresh login.
+
+#' Spotify OAuth client
+#' @param client_id Spotify client id (default env SPOTIFY_CLIENT_ID).
+#' @param client_secret Spotify client secret (default env SPOTIFY_CLIENT_SECRET).
+#' @return A tinyoauth client.
+#' @keywords internal
+.spotify_client <- function(client_id = Sys.getenv("SPOTIFY_CLIENT_ID"),
+                            client_secret = Sys.getenv("SPOTIFY_CLIENT_SECRET")) {
+  tinyoauth::oauth_client(
+    id = client_id, secret = client_secret,
+    token_url = "https://accounts.spotify.com/api/token",
+    auth_url  = "https://accounts.spotify.com/authorize")
+}
+
 #' Get Spotify Access Token
 #'
-#' This function creates a Spotify access token.
-#' @param client_id Defaults to System Environment variable "SPOTIFY_CLIENT_ID"
-#' @param client_secret Defaults to System Environment variable "SPOTIFY_CLIENT_SECRET"
+#' Creates a Spotify access token via the client-credentials grant (app-only).
+#' @param client_id Defaults to system environment variable "SPOTIFY_CLIENT_ID"
+#' @param client_secret Defaults to system environment variable "SPOTIFY_CLIENT_SECRET"
 #' @keywords auth
-#' @return
-#' Returns an environment with access token data.
+#' @return An access token string.
 #' @export
 #' @examples
 #' \dontrun{
 #' get_spotify_access_token()
 #' }
-
-get_spotify_access_token <- function(client_id = Sys.getenv('SPOTIFY_CLIENT_ID'), client_secret = Sys.getenv('SPOTIFY_CLIENT_SECRET')) {
-
-    post0 <- RETRY('POST', 'https://accounts.spotify.com/api/token',
-                  accept_json(), httr::authenticate(client_id, client_secret),
-                  body = list(grant_type = 'client_credentials'),
-                  encode = 'form', httr::config(http_version = 2))
-
-    post <- httr::content(post0)
-
-    if (!is.null(post$error)) {
-        stop(paste0("Could not authenticate with given Spotify credentials:\n\t",
-                    post$error_description))
-    }
-
-    access_token <- post$access_token
-
-    return(access_token)
+get_spotify_access_token <- function(client_id = Sys.getenv('SPOTIFY_CLIENT_ID'),
+                                     client_secret = Sys.getenv('SPOTIFY_CLIENT_SECRET')) {
+  tok <- tinyoauth::oauth_token_client(.spotify_client(client_id, client_secret))
+  tok$access_token
 }
 
 #' Get Spotify authorization Code
 #'
-#' This function creates a Spotify access token.
-#' @param client_id Defaults to System Envioronment variable "SPOTIFY_CLIENT_ID"
-#' @param client_secret Defaults to System Envioronment variable "SPOTIFY_CLIENT_SECRET"
-#' @param scope Space delimited string of spotify scopes, found here: https://developer.spotify.com/documentation/general/guides/scopes/. All scopes are selected by default
+#' Obtains a user-authorized token via the authorization-code grant, with
+#' caching and refresh. If a legacy httr \code{.httr-oauth} file is present, its
+#' authorization is carried over (refreshed) so no new browser login is needed.
+#' @param client_id Defaults to system environment variable "SPOTIFY_CLIENT_ID"
+#' @param client_secret Defaults to system environment variable "SPOTIFY_CLIENT_SECRET"
+#' @param scope Spotify scopes; all are requested by default.
 #' @keywords auth
-#' @return
-#' Returns an environment with access token data.
+#' @return A tinyoauth token (carries the access and refresh tokens).
 #' @export
 #' @examples
 #' \dontrun{
 #' get_spotify_authorization_code()
 #' }
-
-get_spotify_authorization_code <- function(client_id = Sys.getenv("SPOTIFY_CLIENT_ID"), client_secret = Sys.getenv("SPOTIFY_CLIENT_SECRET"), scope = tinyspotifyr::scopes) {
-    endpoint <- httr::oauth_endpoint(authorize = 'https://accounts.spotify.com/authorize',
-                                     access = 'https://accounts.spotify.com/api/token')
-    app <- httr::oauth_app('spotifyr', client_id, client_secret)
-    httr::oauth2.0_token(endpoint = endpoint, app = app, scope = scope)
+get_spotify_authorization_code <- function(client_id = Sys.getenv("SPOTIFY_CLIENT_ID"),
+                                           client_secret = Sys.getenv("SPOTIFY_CLIENT_SECRET"),
+                                           scope = tinyspotifyr::scopes) {
+  client <- .spotify_client(client_id, client_secret)
+  legacy <- ".httr-oauth"
+  if (file.exists(legacy)) {
+    imp <- tryCatch(tinyoauth::oauth_import_httr(legacy), error = function(e) NULL)
+    if (!is.null(imp)) {
+      return(tinyoauth::oauth_refresh(imp$client, imp$token))
+    }
+  }
+  tinyoauth::oauth_token(client, scope = paste(scope, collapse = " "))
 }
