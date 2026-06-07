@@ -7,10 +7,12 @@
 #' Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_my_currently_playing <- function(market = NULL, authorization = get_spotify_authorization_code()) {
+get_my_currently_playing <- function(market = NULL,
+                                     authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/me/player/currently-playing'
     params <- list(market = market)
-    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET",
+                                    query = params, flatten = TRUE)
     return(res)
 }
 
@@ -26,15 +28,14 @@ get_my_currently_playing <- function(market = NULL, authorization = get_spotify_
 #' Returns a list or data frame of results containing the most recently played tracks for the current user.
 #' @export
 
-get_my_recently_played <- function(limit = 20, after = NULL, before = NULL, authorization = get_spotify_authorization_code(), include_meta_info = FALSE) {
+get_my_recently_played <- function(limit = 20, after = NULL, before = NULL,
+                                   authorization = get_spotify_authorization_code(),
+                                   include_meta_info = FALSE) {
     stopifnot(is.null(after) | is.null(before))
     base_url <- 'https://api.spotify.com/v1/me/player/recently-played'
-    params <- list(
-        limit = limit,
-        after = after,
-        before = before
-    )
-    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
+    params <- list(limit = limit, after = after, before = before)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET",
+                                    query = params, flatten = TRUE)
     if (!include_meta_info) {
         res <- res$items
     }
@@ -51,7 +52,8 @@ get_my_recently_played <- function(limit = 20, after = NULL, before = NULL, auth
 
 get_my_devices <- function(authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/me/player/devices'
-    res <- tinyoauth::oauth_request(authorization, base_url, "GET", flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET",
+                                    flatten = TRUE)
     return(res$devices)
 }
 
@@ -64,10 +66,12 @@ get_my_devices <- function(authorization = get_spotify_authorization_code()) {
 #' Returns a list containing user playback information. See the official Spotify Web API \href{https://developer.spotify.com/documentation/web-api}{documentation} for more information.
 #' @export
 
-get_my_current_playback <- function(market = NULL, authorization = get_spotify_authorization_code()) {
+get_my_current_playback <- function(market = NULL,
+                                    authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/me/player'
     params <- list(market = market)
-    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET",
+                                    query = params, flatten = TRUE)
     return(res)
 }
 
@@ -80,10 +84,12 @@ get_my_current_playback <- function(market = NULL, authorization = get_spotify_a
 #' No return value.
 #' @export
 
-pause_my_playback <- function(device_id = NULL, authorization = get_spotify_authorization_code()) {
+pause_my_playback <- function(device_id = NULL,
+                              authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/me/player/pause'
     params <- list(device_id = device_id)
-    res <- tinyoauth::oauth_request(authorization, base_url, "PUT", query = params, flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, base_url, "PUT",
+                                    query = params, flatten = TRUE)
     return(res)
 }
 
@@ -99,14 +105,13 @@ pause_my_playback <- function(device_id = NULL, authorization = get_spotify_auth
 #' No return value.
 #' @export
 
-toggle_my_shuffle <- function(state, device_id = NULL, authorization = get_spotify_authorization_code()) {
+toggle_my_shuffle <- function(state, device_id = NULL,
+                              authorization = get_spotify_authorization_code()) {
     stopifnot(is.logical(state))
     base_url <- 'https://api.spotify.com/v1/me/player/shuffle'
-    params <- list(
-        state = state,
-        device_id = device_id
-        )
-    res <- tinyoauth::oauth_request(authorization, base_url, "PUT", query = params, flatten = TRUE)
+    params <- list(state = state, device_id = device_id)
+    res <- tinyoauth::oauth_request(authorization, base_url, "PUT",
+                                    query = params, flatten = TRUE)
     return(res)
 }
 
@@ -124,15 +129,14 @@ toggle_my_shuffle <- function(state, device_id = NULL, authorization = get_spoti
 #' No return value.
 #' @export
 
-set_my_repeat_mode <- function(state, device_id = NULL, authorization = get_spotify_authorization_code()) {
+set_my_repeat_mode <- function(state, device_id = NULL,
+                               authorization = get_spotify_authorization_code()) {
     stopifnot(state %in% c('track', 'context', 'off'))
     stopifnot(length(state) == 1)
     base_url <- 'https://api.spotify.com/v1/me/player/repeat'
-    params <- list(
-        state = state,
-        device_id = device_id
-    )
-    res <- tinyoauth::oauth_request(authorization, base_url, "PUT", query = params, flatten = TRUE)
+    params <- list(state = state, device_id = device_id)
+    res <- tinyoauth::oauth_request(authorization, base_url, "PUT",
+                                    query = params, flatten = TRUE)
     return(res)
 }
 
@@ -146,16 +150,15 @@ set_my_repeat_mode <- function(state, device_id = NULL, authorization = get_spot
 #' No return value.
 #' @export
 
-set_my_volume <- function(volume_percent, device_id = NULL, authorization = get_spotify_authorization_code()) {
+set_my_volume <- function(volume_percent, device_id = NULL,
+                          authorization = get_spotify_authorization_code()) {
     stopifnot(is.numeric(volume_percent))
     stopifnot(volume %in% seq(0, 100))
     stopifnot(length(volume) == 1)
     base_url <- 'https://api.spotify.com/v1/me/player/volume'
-    params <- list(
-        volume_percent = volume_percent,
-        device_id = device_id
-    )
-    res <- tinyoauth::oauth_request(authorization, base_url, "PUT", query = params, flatten = TRUE)
+    params <- list(volume_percent = volume_percent, device_id = device_id)
+    res <- tinyoauth::oauth_request(authorization, base_url, "PUT",
+                                    query = params, flatten = TRUE)
     return(res)
 }
 
@@ -168,12 +171,12 @@ set_my_volume <- function(volume_percent, device_id = NULL, authorization = get_
 #' No return value.
 #' @export
 
-skip_my_playback <- function(device_id = NULL, authorization = get_spotify_authorization_code()) {
+skip_my_playback <- function(device_id = NULL,
+                             authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/me/player/next'
-    params <- list(
-        device_id = device_id
-    )
-    res <- tinyoauth::oauth_request(authorization, base_url, "POST", query = params, flatten = TRUE)
+    params <- list(device_id = device_id)
+    res <- tinyoauth::oauth_request(authorization, base_url, "POST",
+                                    query = params, flatten = TRUE)
     return(res)
 }
 
@@ -186,12 +189,12 @@ skip_my_playback <- function(device_id = NULL, authorization = get_spotify_autho
 #' No return value.
 #' @export
 
-skip_my_playback_previous <- function(device_id = NULL, authorization = get_spotify_authorization_code()) {
+skip_my_playback_previous <- function(device_id = NULL,
+                                      authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/me/player/previous'
-    params <- list(
-        device_id = device_id
-    )
-    res <- tinyoauth::oauth_request(authorization, base_url, "POST", query = params, flatten = TRUE)
+    params <- list(device_id = device_id)
+    res <- tinyoauth::oauth_request(authorization, base_url, "POST",
+                                    query = params, flatten = TRUE)
     return(res)
 }
 
@@ -210,17 +213,13 @@ skip_my_playback_previous <- function(device_id = NULL, authorization = get_spot
 #' No return value.
 #' @export
 
-start_my_playback <- function(device_id = NULL, context_uri = NULL, uris = NULL, offset = NULL, position_ms = NULL, authorization = get_spotify_authorization_code()) {
+start_my_playback <- function(device_id = NULL, context_uri = NULL,
+                              uris = NULL, offset = NULL, position_ms = NULL,
+                              authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/me/player/play'
-    query_params = list(
-        device_id = device_id
-    )
-    body_params <- list(
-        context_uri = context_uri,
-        uris = uris,
-        offset = offset,
-        position_ms = position_ms
-    )
+    query_params <- list(device_id = device_id)
+    body_params <- list(context_uri = context_uri, uris = uris,
+                        offset = offset, position_ms = position_ms)
     res <- tinyoauth::oauth_request(authorization, base_url, "PUT", query = query_params, body = body_params, flatten = TRUE)
     return(res)
 }
@@ -238,13 +237,12 @@ start_my_playback <- function(device_id = NULL, context_uri = NULL, uris = NULL,
 #' No return value.
 #' @export
 
-transfer_my_playback <- function(device_ids, play = FALSE, authorization = get_spotify_authorization_code()) {
+transfer_my_playback <- function(device_ids, play = FALSE,
+                                 authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/me/player/'
-    params <- list(
-        device_ids = list(device_ids),
-        play = play
-    )
-    res <- tinyoauth::oauth_request(authorization, base_url, "PUT", body = params, flatten = TRUE)
+    params <- list(device_ids = list(device_ids), play = play)
+    res <- tinyoauth::oauth_request(authorization, base_url, "PUT",
+                                    body = params, flatten = TRUE)
     return(res)
 }
 
@@ -258,17 +256,16 @@ transfer_my_playback <- function(device_ids, play = FALSE, authorization = get_s
 #' No return value.
 #' @export
 
-seek_to_position <- function(position_ms, device_id = NULL, authorization = get_spotify_authorization_code()) {
-
+seek_to_position <- function(position_ms, device_id = NULL,
+                             authorization = get_spotify_authorization_code()) {
     stopifnot(is.numeric(position_ms))
     stopifnot(position_ms > 0)
     stopifnot(round(position_ms) == position_ms)
 
     base_url <- 'https://api.spotify.com/v1/me/player/seek'
-    params <- list(
-        position_ms = position_ms,
-        device_id = device_id
-        )
-    res <- tinyoauth::oauth_request(authorization, base_url, "PUT", query = params, flatten = TRUE)
+    params <- list(position_ms = position_ms, device_id = device_id)
+    res <- tinyoauth::oauth_request(authorization, base_url, "PUT",
+                                    query = params, flatten = TRUE)
     return(res)
 }
+

@@ -7,13 +7,12 @@
 #' No return value. User's account follows another on Spotify.
 #' @export
 
-follow_artists_or_users <- function(type, ids, authorization = get_spotify_authorization_code()) {
+follow_artists_or_users <- function(type, ids,
+                                    authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/me/following'
-    query_params <- list(
-        type = type,
-        ids = paste0(ids, collapse = ',')
-    )
-    res <- tinyoauth::oauth_request(authorization, base_url, "PUT", query = query_params, flatten = TRUE)
+    query_params <- list(type = type, ids = paste0(ids, collapse = ','))
+    res <- tinyoauth::oauth_request(authorization, base_url, "PUT",
+                                    query = query_params, flatten = TRUE)
     return(res)
 }
 
@@ -28,13 +27,13 @@ follow_artists_or_users <- function(type, ids, authorization = get_spotify_autho
 #' No return value.
 #' @export
 
-follow_playlist <- function(playlist_id, public = FALSE, authorization = get_spotify_authorization_code()) {
+follow_playlist <- function(playlist_id, public = FALSE,
+                            authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/playlists'
     url <- paste0(base_url, "/", playlist_id, "/followers")
-    params <- list(
-        public = public
-    )
-    res <- tinyoauth::oauth_request(authorization, url, "PUT", body = params, flatten = TRUE)
+    params <- list(public = public)
+    res <- tinyoauth::oauth_request(authorization, url, "PUT",
+                                    body = params, flatten = TRUE)
     return(res)
 }
 
@@ -48,10 +47,12 @@ follow_playlist <- function(playlist_id, public = FALSE, authorization = get_spo
 #' No return value.
 #' @export
 
-unfollow_playlist <- function(playlist_id, authorization = get_spotify_authorization_code()) {
+unfollow_playlist <- function(playlist_id,
+                              authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/playlists'
     url <- paste0(base_url, "/", playlist_id, "/followers")
-    res <- tinyoauth::oauth_request(authorization, url, "DELETE", flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, url, "DELETE",
+                                    flatten = TRUE)
     return(res)
 }
 
@@ -65,14 +66,13 @@ unfollow_playlist <- function(playlist_id, authorization = get_spotify_authoriza
 #' Returns a data frame of results containing user's followed artists.
 #' @export
 
-get_my_followed_artists <- function(limit = 20, after = NULL, authorization = get_spotify_authorization_code(), include_meta_info = FALSE) {
+get_my_followed_artists <- function(limit = 20, after = NULL,
+                                    authorization = get_spotify_authorization_code(),
+                                    include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/me/following'
-    params <- list(
-        type = 'artist',
-        limit = limit,
-        after = after
-    )
-    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
+    params <- list(type = 'artist', limit = limit, after = after)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET",
+                                    query = params, flatten = TRUE)
     res <- res$artists
     if (!include_meta_info) {
         res <- res$items
@@ -89,18 +89,14 @@ get_my_followed_artists <- function(limit = 20, after = NULL, authorization = ge
 #' Returns a list of results containing user following status.
 #' @export
 
-check_me_following <- function(type, ids, authorization = get_spotify_authorization_code()) {
-
+check_me_following <- function(type, ids,
+                               authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/me/following/contains'
-    params <- list(
-        type = type,
-        ids = paste0(ids, collapse = ',')
-    )
-    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
+    params <- list(type = type, ids = paste0(ids, collapse = ','))
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET",
+                                    query = params, flatten = TRUE)
 
-    data.frame(type = type,
-               id = ids,
-               is_following = res)
+    data.frame(type = type, id = ids, is_following = res)
 
 }
 
@@ -115,18 +111,15 @@ check_me_following <- function(type, ids, authorization = get_spotify_authorizat
 #' Returns a list of results containing user following status.
 #' @export
 
-check_users_following <- function(playlist_id, ids, authorization = get_spotify_authorization_code()) {
-
+check_users_following <- function(playlist_id, ids,
+                                  authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/playlists'
-    params <- list(
-        playlist_id = playlist_id,
-        ids = paste0(ids, collapse = ',')
-    )
+    params <- list(playlist_id = playlist_id, ids = paste0(ids, collapse = ','))
     url <- paste0(base_url, "/", playlist_id, "/followers/contains")
-    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, url, "GET",
+                                    query = params, flatten = TRUE)
 
-    data.frame(user_id = ids,
-               playlist_id = playlist_id,
-               is_following = res)
+    data.frame(user_id = ids, playlist_id = playlist_id, is_following = res)
 
 }
+

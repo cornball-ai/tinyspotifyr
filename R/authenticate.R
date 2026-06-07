@@ -10,10 +10,10 @@
 #' @keywords internal
 .spotify_client <- function(client_id = Sys.getenv("SPOTIFY_CLIENT_ID"),
                             client_secret = Sys.getenv("SPOTIFY_CLIENT_SECRET")) {
-  tinyoauth::oauth_client(
-    id = client_id, secret = client_secret,
-    token_url = "https://accounts.spotify.com/api/token",
-    auth_url  = "https://accounts.spotify.com/authorize")
+    tinyoauth::oauth_client(
+                            id = client_id, secret = client_secret,
+                            token_url = "https://accounts.spotify.com/api/token",
+                            auth_url = "https://accounts.spotify.com/authorize")
 }
 
 #' Get Spotify Access Token
@@ -30,8 +30,9 @@
 #' }
 get_spotify_access_token <- function(client_id = Sys.getenv('SPOTIFY_CLIENT_ID'),
                                      client_secret = Sys.getenv('SPOTIFY_CLIENT_SECRET')) {
-  tok <- tinyoauth::oauth_token_client(.spotify_client(client_id, client_secret))
-  tok$access_token
+    tok <- tinyoauth::oauth_token_client(.spotify_client(client_id,
+            client_secret))
+    tok$access_token
 }
 
 #' Get Spotify authorization Code
@@ -50,15 +51,17 @@ get_spotify_access_token <- function(client_id = Sys.getenv('SPOTIFY_CLIENT_ID')
 #' get_spotify_authorization_code()
 #' }
 get_spotify_authorization_code <- function(client_id = Sys.getenv("SPOTIFY_CLIENT_ID"),
-                                           client_secret = Sys.getenv("SPOTIFY_CLIENT_SECRET"),
-                                           scope = tinyspotifyr::scopes) {
-  client <- .spotify_client(client_id, client_secret)
-  legacy <- ".httr-oauth"
-  if (file.exists(legacy)) {
-    imp <- tryCatch(tinyoauth::oauth_import_httr(legacy), error = function(e) NULL)
-    if (!is.null(imp)) {
-      return(tinyoauth::oauth_refresh(imp$client, imp$token))
+    client_secret = Sys.getenv("SPOTIFY_CLIENT_SECRET"),
+    scope = tinyspotifyr::scopes) {
+    client <- .spotify_client(client_id, client_secret)
+    legacy <- ".httr-oauth"
+    if (file.exists(legacy)) {
+        imp <- tryCatch(tinyoauth::oauth_import_httr(legacy),
+                        error = function(e) NULL)
+        if (!is.null(imp)) {
+            return(tinyoauth::oauth_refresh(imp$client, imp$token))
+        }
     }
-  }
-  tinyoauth::oauth_token(client, scope = paste(scope, collapse = " "))
+    tinyoauth::oauth_token(client, scope = paste(scope, collapse = " "))
 }
+

@@ -8,9 +8,10 @@
 
 get_my_profile <- function(authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/me/'
-    res <- tinyoauth::oauth_request(authorization, base_url, "GET", flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET",
+                                    flatten = TRUE)
     res <- t(unlist(res))
-    
+
     return(res)
 }
 
@@ -22,12 +23,15 @@ get_my_profile <- function(authorization = get_spotify_authorization_code()) {
 #' Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_user_profile <- function(user_id, authorization = get_spotify_access_token()) {
+get_user_profile <- function(user_id,
+                             authorization = get_spotify_access_token()) {
     base_url <- 'https://api.spotify.com/v1/users'
     url <- paste0(base_url, "/", user_id)
-    params = list()
-    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
+    params <- list()
+    res <- tinyoauth::oauth_request(authorization, url, "GET",
+                                    query = params, flatten = TRUE)
     res <- t(unlist(res))
 
     return(res)
 }
+

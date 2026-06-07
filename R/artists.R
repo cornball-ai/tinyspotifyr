@@ -7,13 +7,12 @@
 #' @export
 
 get_artist <- function(id, authorization = get_spotify_access_token()) {
-
     base_url <- 'https://api.spotify.com/v1/artists'
 
     params <- list()
     url <- paste0(base_url, "/", id)
-    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
-
+    res <- tinyoauth::oauth_request(authorization, url, "GET",
+                                    query = params, flatten = TRUE)
 
     return(res)
 }
@@ -27,15 +26,13 @@ get_artist <- function(id, authorization = get_spotify_access_token()) {
 #' Returns a data frame of results containing artist data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_artists <- function(ids, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
-
+get_artists <- function(ids, authorization = get_spotify_access_token(),
+                        include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/artists'
 
-    params <- list(
-        ids = paste(ids, collapse = ',')
-    )
-    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
-
+    params <- list(ids = paste(ids, collapse = ','))
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET",
+                                    query = params, flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$artists
@@ -72,8 +69,11 @@ get_artists <- function(ids, authorization = get_spotify_access_token(), include
 #' Returns a data frame of results containing artist data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_artist_albums <- function(id, include_groups = c('album', 'single', 'appears_on', 'compilation'), market = NULL, limit = 20, offset = 0, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
-
+get_artist_albums <- function(id,
+                              include_groups = c('album', 'single', 'appears_on', 'compilation'),
+                              market = NULL, limit = 20, offset = 0,
+                              authorization = get_spotify_access_token(),
+                              include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/artists'
 
     if (!is.null(market)) {
@@ -82,15 +82,10 @@ get_artist_albums <- function(id, include_groups = c('album', 'single', 'appears
         }
     }
 
-    params <- list(
-        include_groups = paste(include_groups, collapse = ','),
-        market = market,
-        limit = limit,
-        offset = offset
-    )
+    params <- list(include_groups = paste(include_groups, collapse = ','),
+                   market = market, limit = limit, offset = offset)
     url <- paste0(base_url, "/", id, "/albums")
     res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
-
 
     if (!include_meta_info) {
         res <- res$items
@@ -110,8 +105,9 @@ get_artist_albums <- function(id, include_groups = c('album', 'single', 'appears
 #' Returns a data frame of results containing artist data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_artist_top_tracks <- function(id, market = 'US', authorization = get_spotify_access_token(), include_meta_info = FALSE) {
-
+get_artist_top_tracks <- function(id, market = 'US',
+                                  authorization = get_spotify_access_token(),
+                                  include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/artists'
 
     if (!is.null(market)) {
@@ -120,12 +116,10 @@ get_artist_top_tracks <- function(id, market = 'US', authorization = get_spotify
         }
     }
 
-    params <- list(
-        market = market
-    )
+    params <- list(market = market)
     url <- paste0(base_url, "/", id, "/top-tracks")
-    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
-
+    res <- tinyoauth::oauth_request(authorization, url, "GET",
+                                    query = params, flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$tracks
@@ -143,14 +137,15 @@ get_artist_top_tracks <- function(id, market = 'US', authorization = get_spotify
 #' Returns a data frame of results containing artist data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_related_artists <- function(id, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
-
+get_related_artists <- function(id,
+                                authorization = get_spotify_access_token(),
+                                include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/artists'
 
     params <- list()
     url <- paste0(base_url, "/", id, "/related-artists")
-    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
-
+    res <- tinyoauth::oauth_request(authorization, url, "GET",
+                                    query = params, flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$artists
@@ -158,3 +153,4 @@ get_related_artists <- function(id, authorization = get_spotify_access_token(), 
 
     return(res)
 }
+

@@ -17,8 +17,10 @@
 #' Returns a data frame of results containing track or album data. See the official API \href{https://developer.spotify.com/documentation/web-api}{documentation} for more information.
 #' @export
 
-get_my_top_artists_or_tracks <- function(type = NULL, limit = 20, offset = 0, time_range = 'medium_term', authorization = get_spotify_authorization_code(), include_meta_info = FALSE) {
-
+get_my_top_artists_or_tracks <- function(type = NULL, limit = 20, offset = 0,
+    time_range = 'medium_term',
+    authorization = get_spotify_authorization_code(),
+    include_meta_info = FALSE) {
     if (!type %in% c('artists', 'tracks')) {
         stop('"type" must be one of "artists" or "tracks"')
     }
@@ -37,14 +39,10 @@ get_my_top_artists_or_tracks <- function(type = NULL, limit = 20, offset = 0, ti
 
     base_url <- 'https://api.spotify.com/v1/me/top'
 
-    params <- list(
-        limit = limit,
-        offset = offset,
-        time_range = time_range
-    )
+    params <- list(limit = limit, offset = offset, time_range = time_range)
     url <- paste0(base_url, "/", type)
-    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
-
+    res <- tinyoauth::oauth_request(authorization, url, "GET",
+                                    query = params, flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$items
@@ -52,3 +50,4 @@ get_my_top_artists_or_tracks <- function(type = NULL, limit = 20, offset = 0, ti
 
     return(res)
 }
+

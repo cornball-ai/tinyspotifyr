@@ -7,21 +7,20 @@
 #' Returns a data frame of results containing album data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_categories <- function(authorization = get_spotify_access_token(), df = TRUE) {
-
+get_categories <- function(authorization = get_spotify_access_token(),
+                           df = TRUE) {
     url <- 'https://api.spotify.com/v1/browse/categories'
 
     params <- list()
 
-    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, url, "GET",
+                                    query = params, flatten = TRUE)
 
-
-    if(df){
+    if (df) {
         res <- res$categories$items
     }
     return(res)
 }
-
 
 #' Get a single category used to tag items in Spotify (on, for example, the Spotify player’s “Browse” tab).
 #'
@@ -33,21 +32,19 @@ get_categories <- function(authorization = get_spotify_access_token(), df = TRUE
 #' Returns a list of results containing category information. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_category <- function(category_id, country = NULL, locale = NULL, authorization = get_spotify_access_token()) {
+get_category <- function(category_id, country = NULL, locale = NULL,
+                         authorization = get_spotify_access_token()) {
     base_url <- 'https://api.spotify.com/v1/browse/categories'
     url <- paste0(base_url, "/", category_id)
 
-    params <- list(
-        country = country,
-        locale = locale
-    )
+    params <- list(country = country, locale = locale)
 
-    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, url, "GET",
+                                    query = params, flatten = TRUE)
     res0 <- res
     res <- as.data.frame(res0, stringsAsFactors = FALSE)
     return(res)
 }
-
 
 #' Get a list of Spotify playlists tagged with a particular category.
 #'
@@ -67,18 +64,21 @@ get_category <- function(category_id, country = NULL, locale = NULL, authorizati
 #' get_category_playlists('party', country = 'BR')
 #' }
 
-get_category_playlists <- function(category_id, market = NULL, limit = 20, offset = 0, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
+get_category_playlists <- function(category_id, market = NULL, limit = 20,
+                                   offset = 0,
+                                   authorization = get_spotify_access_token(),
+                                   include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/browse/categories'
     url <- paste0(base_url, "/", category_id, "/playlists")
 
-    params <- list(market = market, limit = limit,
-                   offset = offset)
+    params <- list(market = market, limit = limit, offset = offset)
 
-    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, url, "GET",
+                                    query = params, flatten = TRUE)
 
     res <- res$playlists
 
-    if(!include_meta_info){
+    if (!include_meta_info) {
         res <- res$items
     }
     return(res)
@@ -101,17 +101,16 @@ get_category_playlists <- function(category_id, market = NULL, limit = 20, offse
 #' get_new_releases(country = 'SE')
 #' }
 
-get_new_releases <- function(country = NULL, limit = 20, offset = 0, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
+get_new_releases <- function(country = NULL, limit = 20, offset = 0,
+                             authorization = get_spotify_access_token(),
+                             include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/browse/new-releases'
-    params <- list(
-        country = country,
-        limit = limit,
-        offset = offset
-    )
-    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
+    params <- list(country = country, limit = limit, offset = offset)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET",
+                                    query = params, flatten = TRUE)
     res <- res$albums
 
-    if(!include_meta_info){
+    if (!include_meta_info) {
         res <- res$items
     }
     return(res)
@@ -136,15 +135,13 @@ get_new_releases <- function(country = NULL, limit = 20, offset = 0, authorizati
 #' get_featured_playlists(country = 'SE')
 #' }
 
-get_featured_playlists <- function(locale = NULL, country = NULL, timestamp = NULL, limit = 20, offset = 0, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
+get_featured_playlists <- function(locale = NULL, country = NULL,
+                                   timestamp = NULL, limit = 20, offset = 0,
+                                   authorization = get_spotify_access_token(),
+                                   include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/browse/featured-playlists'
-    params <- list(
-        locale = locale,
-        country = country,
-        timestamp = timestamp,
-        limit = limit,
-        offset = offset
-    )
+    params <- list(locale = locale, country = country, timestamp = timestamp,
+                   limit = limit, offset = offset)
     res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
     res$playlists$message <- res$message
     res <- res$playlists
@@ -217,37 +214,23 @@ get_featured_playlists <- function(locale = NULL, country = NULL, timestamp = NU
 #' get_recommendations(country = 'SE')
 #' }
 
-get_recommendations <- function(limit = 20,
-                                market = NULL,
-                                seed_artists = NULL,
-                                seed_genres = NULL,
-                                seed_tracks = NULL,
-                                max_acousticness = NULL,
+get_recommendations <- function(limit = 20, market = NULL,
+                                seed_artists = NULL, seed_genres = NULL,
+                                seed_tracks = NULL, max_acousticness = NULL,
                                 max_danceability = NULL,
-                                max_duration_ms = NULL,
-                                max_energy = NULL,
-                                max_instrumentalness = NULL,
-                                max_key = NULL,
-                                max_liveness = NULL,
-                                max_loudness = NULL,
-                                max_mode = NULL,
-                                max_popularity = NULL,
-                                max_speechiness = NULL,
-                                max_tempo = NULL,
+                                max_duration_ms = NULL, max_energy = NULL,
+                                max_instrumentalness = NULL, max_key = NULL,
+                                max_liveness = NULL, max_loudness = NULL,
+                                max_mode = NULL, max_popularity = NULL,
+                                max_speechiness = NULL, max_tempo = NULL,
                                 max_time_signature = NULL,
-                                max_valence = NULL,
-                                min_acousticness = NULL,
+                                max_valence = NULL, min_acousticness = NULL,
                                 min_danceability = NULL,
-                                min_duration_ms = NULL,
-                                min_energy = NULL,
-                                min_instrumentalness = NULL,
-                                min_key = NULL,
-                                min_liveness = NULL,
-                                min_loudness = NULL,
-                                min_mode = NULL,
-                                min_popularity = NULL,
-                                min_speechiness = NULL,
-                                min_tempo = NULL,
+                                min_duration_ms = NULL, min_energy = NULL,
+                                min_instrumentalness = NULL, min_key = NULL,
+                                min_liveness = NULL, min_loudness = NULL,
+                                min_mode = NULL, min_popularity = NULL,
+                                min_speechiness = NULL, min_tempo = NULL,
                                 min_time_signature = NULL,
                                 min_valence = NULL,
                                 target_acousticness = NULL,
@@ -255,10 +238,8 @@ get_recommendations <- function(limit = 20,
                                 target_duration_ms = NULL,
                                 target_energy = NULL,
                                 target_instrumentalness = NULL,
-                                target_key = NULL,
-                                target_liveness = NULL,
-                                target_loudness = NULL,
-                                target_mode = NULL,
+                                target_key = NULL, target_liveness = NULL,
+                                target_loudness = NULL, target_mode = NULL,
                                 target_popularity = NULL,
                                 target_speechiness = NULL,
                                 target_tempo = NULL,
@@ -266,65 +247,52 @@ get_recommendations <- function(limit = 20,
                                 target_valence = NULL,
                                 authorization = get_spotify_access_token(),
                                 include_seeds_in_response = FALSE) {
-
     .Deprecated(msg = paste("get_recommendations(): Spotify removed",
-        "GET /v1/recommendations (HTTP 404) in November 2024;",
-        "the endpoint no longer exists."))
+                            "GET /v1/recommendations (HTTP 404) in November 2024;",
+                            "the endpoint no longer exists."))
 
     if (length(seed_artists) + length(seed_tracks) + length(seed_genres) > 5) {
         stop("Too many seed values. Up to 5 seed values may be provided in any combination of seed_artists, seed_tracks and seed_genres")
     }
 
     base_url <- 'https://api.spotify.com/v1/recommendations'
-    params <- list(
-        limit = limit,
-        market = market,
-        seed_artists = paste(seed_artists, collapse = ','),
-        seed_genres = paste(seed_genres, collapse = ','),
-        seed_tracks = paste(seed_tracks, collapse = ','),
-        max_acousticness = max_acousticness,
-        max_danceability = max_danceability,
-        max_duration_ms = max_duration_ms,
-        max_energy = max_energy,
-        max_instrumentalness = max_instrumentalness,
-        max_key = max_key,
-        max_liveness = max_liveness,
-        max_loudness = max_loudness,
-        max_mode = max_mode,
-        max_popularity = max_popularity,
-        max_speechiness = max_speechiness,
-        max_tempo = max_tempo,
-        max_time_signature = max_time_signature,
-        max_valence = max_valence,
-        min_acousticness = min_acousticness,
-        min_danceability = min_danceability,
-        min_duration_ms = min_duration_ms,
-        min_energy = min_energy,
-        min_instrumentalness = min_instrumentalness,
-        min_key = min_key,
-        min_liveness = min_liveness,
-        min_loudness = min_loudness,
-        min_mode = min_mode,
-        min_popularity = min_popularity,
-        min_speechiness = min_speechiness,
-        min_tempo = min_tempo,
-        min_time_signature = min_time_signature,
-        min_valence = min_valence,
-        target_acousticness = target_acousticness,
-        target_danceability = target_danceability,
-        target_duration_ms = target_duration_ms,
-        target_energy = target_energy,
-        target_instrumentalness = target_instrumentalness,
-        target_key = target_key,
-        target_liveness = target_liveness,
-        target_loudness = target_loudness,
-        target_mode = target_mode,
-        target_popularity = target_popularity,
-        target_speechiness = target_speechiness,
-        target_tempo = target_tempo,
-        target_time_signature = target_time_signature,
-        target_valence = target_valence
-    )
+    params <- list(limit = limit, market = market,
+                   seed_artists = paste(seed_artists, collapse = ','),
+                   seed_genres = paste(seed_genres, collapse = ','),
+                   seed_tracks = paste(seed_tracks, collapse = ','),
+                   max_acousticness = max_acousticness,
+                   max_danceability = max_danceability,
+                   max_duration_ms = max_duration_ms, max_energy = max_energy,
+                   max_instrumentalness = max_instrumentalness,
+                   max_key = max_key, max_liveness = max_liveness,
+                   max_loudness = max_loudness, max_mode = max_mode,
+                   max_popularity = max_popularity,
+                   max_speechiness = max_speechiness, max_tempo = max_tempo,
+                   max_time_signature = max_time_signature,
+                   max_valence = max_valence,
+                   min_acousticness = min_acousticness,
+                   min_danceability = min_danceability,
+                   min_duration_ms = min_duration_ms, min_energy = min_energy,
+                   min_instrumentalness = min_instrumentalness,
+                   min_key = min_key, min_liveness = min_liveness,
+                   min_loudness = min_loudness, min_mode = min_mode,
+                   min_popularity = min_popularity,
+                   min_speechiness = min_speechiness, min_tempo = min_tempo,
+                   min_time_signature = min_time_signature,
+                   min_valence = min_valence,
+                   target_acousticness = target_acousticness,
+                   target_danceability = target_danceability,
+                   target_duration_ms = target_duration_ms,
+                   target_energy = target_energy,
+                   target_instrumentalness = target_instrumentalness,
+                   target_key = target_key, target_liveness = target_liveness,
+                   target_loudness = target_loudness,
+                   target_mode = target_mode,
+                   target_popularity = target_popularity,
+                   target_speechiness = target_speechiness,
+                   target_tempo = target_tempo,
+                   target_time_signature = target_time_signature,
+                   target_valence = target_valence)
 
     res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
     if (!include_seeds_in_response) {
@@ -332,3 +300,4 @@ get_recommendations <- function(limit = 20,
     }
     return(res)
 }
+

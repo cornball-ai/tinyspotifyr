@@ -6,7 +6,8 @@
 #' Returns a data frame of results containing track audio analysis data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_track_audio_analysis <- function(id, authorization = get_spotify_access_token()) {
+get_track_audio_analysis <- function(id,
+                                     authorization = get_spotify_access_token()) {
     base_url <- 'https://api.spotify.com/v1/audio-analysis'
     url <- paste0(base_url, "/", id)
     tinyoauth::oauth_request(authorization, url, "GET", flatten = TRUE)
@@ -23,10 +24,11 @@ get_track_audio_analysis <- function(id, authorization = get_spotify_access_toke
 #' Returns a data frame of results containing track audio features data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_track_audio_features <- function(ids, authorization = get_spotify_access_token()) {
+get_track_audio_features <- function(ids,
+                                     authorization = get_spotify_access_token()) {
     .Deprecated(msg = paste("get_track_audio_features(): Spotify restricted",
-        "GET /v1/audio-features (HTTP 403) in November 2024; it no longer",
-        "returns data for apps without prior access."))
+                            "GET /v1/audio-features (HTTP 403) in November 2024; it no longer",
+                            "returns data for apps without prior access."))
     stopifnot(length(ids) <= 100)
     base_url <- 'https://api.spotify.com/v1/audio-features'
     params <- list(ids = paste0(ids, collapse = ','))
@@ -45,7 +47,8 @@ get_track_audio_features <- function(ids, authorization = get_spotify_access_tok
 #' Returns a data frame of results containing track data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_track <- function(id, market = NULL, authorization = get_spotify_access_token()) {
+get_track <- function(id, market = NULL,
+                      authorization = get_spotify_access_token()) {
     base_url <- 'https://api.spotify.com/v1/tracks'
     if (!is.null(market)) {
         if (!grepl('^[[:alpha:]]{2}$', market)) {
@@ -68,7 +71,9 @@ get_track <- function(id, market = NULL, authorization = get_spotify_access_toke
 #' Returns a data frame of results containing track data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_tracks <- function(ids, market = NULL, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
+get_tracks <- function(ids, market = NULL,
+                       authorization = get_spotify_access_token(),
+                       include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/tracks'
     if (!is.null(market)) {
         if (!grepl('^[[:alpha:]]{2}$', market)) {
@@ -83,3 +88,4 @@ get_tracks <- function(ids, market = NULL, authorization = get_spotify_access_to
     }
     res
 }
+
