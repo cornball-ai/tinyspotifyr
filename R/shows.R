@@ -63,7 +63,7 @@ get_shows_episodes <- function(id, market = "US",
     base_url <- 'https://api.spotify.com/v1/shows'
 
     params <- list(market = market)
-    url <- paste0(base_url, "/", id, "/episodes?market=", market)
+    url <- paste0(base_url, "/", id, "/episodes")
     res <- tinyoauth::oauth_request(authorization, url, "GET",
                                     query = params, flatten = TRUE)
 
