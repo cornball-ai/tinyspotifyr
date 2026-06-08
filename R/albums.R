@@ -8,8 +8,8 @@
 #' Returns a data frame of results containing album data. See the \href{https://developer.spotify.com/documentation/web-api}{official documentation} for more information.
 #' @export
 
-get_album <- function(id, market = NULL, authorization = get_spotify_access_token()) {
-
+get_album <- function(id, market = NULL,
+                      authorization = get_spotify_access_token()) {
     base_url <- 'https://api.spotify.com/v1/albums'
 
     if (!is.null(market)) {
@@ -18,18 +18,11 @@ get_album <- function(id, market = NULL, authorization = get_spotify_access_toke
         }
     }
 
-    params <- list(
-        market = market,
-        access_token = authorization
-    )
-    url <- paste0(base_url, "/", playlist_id, "/tracks?market=", market)
+    params <- list(market = market)
 
     url <- paste0(base_url, "/", id)
-    res <- RETRY('GET', url, query = params, encode = 'json')
-    stop_for_status(res)
-
-    res <- jsonlite::fromJSON(content(res, as = 'text', encoding = 'UTF-8'),
-                              flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, url, "GET",
+                                    query = params, flatten = TRUE)
 
     return(res)
 }
@@ -45,8 +38,9 @@ get_album <- function(id, market = NULL, authorization = get_spotify_access_toke
 #' Returns a data frame of results containing album data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_albums <- function(ids, market = NULL, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
-
+get_albums <- function(ids, market = NULL,
+                       authorization = get_spotify_access_token(),
+                       include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/albums'
 
     if (!is.null(market)) {
@@ -55,15 +49,9 @@ get_albums <- function(ids, market = NULL, authorization = get_spotify_access_to
         }
     }
 
-    params <- list(
-        ids = paste(ids, collapse = ','),
-        market = market,
-        access_token = authorization
-    )
-    res <- RETRY('GET', base_url, query = params, encode = 'json')
-    stop_for_status(res)
-
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
+    params <- list(ids = paste(ids, collapse = ','), market = market)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET",
+                                    query = params, flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$albums
@@ -95,8 +83,9 @@ get_albums <- function(ids, market = NULL, authorization = get_spotify_access_to
 #' Returns a data frame of results containing album data. See the official API \href{https://developer.spotify.com/documentation/web-api}{documentation} for more information.
 #' @export
 
-get_album_tracks <- function(id, limit = 20, offset = 0, market = NULL, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
-
+get_album_tracks <- function(id, limit = 20, offset = 0, market = NULL,
+                             authorization = get_spotify_access_token(),
+                             include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/albums'
 
     if (!is.null(market)) {
@@ -105,17 +94,10 @@ get_album_tracks <- function(id, limit = 20, offset = 0, market = NULL, authoriz
         }
     }
 
-    params <- list(
-        market = market,
-        offset = offset,
-        limit = limit,
-        access_token = authorization
-    )
+    params <- list(market = market, offset = offset, limit = limit)
     url <- paste0(base_url, "/", id, "/tracks")
-    res <- RETRY('GET', url, query = params, encode = 'json')
-    stop_for_status(res)
-
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, url, "GET",
+                                    query = params, flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$items
@@ -123,3 +105,4 @@ get_album_tracks <- function(id, limit = 20, offset = 0, market = NULL, authoriz
 
     return(res)
 }
+

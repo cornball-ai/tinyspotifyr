@@ -6,20 +6,11 @@
 #' Returns a data frame of results containing track audio analysis data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_track_audio_analysis <- function(id, authorization = get_spotify_access_token()) {
-
+get_track_audio_analysis <- function(id,
+                                     authorization = get_spotify_access_token()) {
     base_url <- 'https://api.spotify.com/v1/audio-analysis'
-
-    params <- list(
-        access_token = authorization
-    )
     url <- paste0(base_url, "/", id)
-    res <- RETRY('GET', url, query = params, encode = 'json')
-    stop_for_status(res)
-
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-
-    return(res)
+    tinyoauth::oauth_request(authorization, url, "GET", flatten = TRUE)
 }
 
 #' Get audio feature information for a single track identified by its unique Spotify ID.
@@ -33,22 +24,17 @@ get_track_audio_analysis <- function(id, authorization = get_spotify_access_toke
 #' Returns a data frame of results containing track audio features data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_track_audio_features <- function(ids, authorization = get_spotify_access_token()) {
+get_track_audio_features <- function(ids,
+                                     authorization = get_spotify_access_token()) {
     .Deprecated(msg = paste("get_track_audio_features(): Spotify restricted",
-        "GET /v1/audio-features (HTTP 403) in November 2024; it no longer",
-        "returns data for apps without prior access."))
+                            "GET /v1/audio-features (HTTP 403) in November 2024; it no longer",
+                            "returns data for apps without prior access."))
     stopifnot(length(ids) <= 100)
     base_url <- 'https://api.spotify.com/v1/audio-features'
-    params <- list(
-        access_token = authorization,
-        ids = paste0(ids, collapse = ',')
-    )
-    res <- RETRY('GET', base_url, query = params, encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-    res <- res$audio_features
-    
-    return(res)
+    params <- list(ids = paste0(ids, collapse = ','))
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET",
+                                    query = params, flatten = TRUE)
+    res$audio_features
 }
 
 #' Get Spotify catalog information for a single track identified by its unique Spotify ID.
@@ -61,27 +47,17 @@ get_track_audio_features <- function(ids, authorization = get_spotify_access_tok
 #' Returns a data frame of results containing track data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_track <- function(id, market = NULL, authorization = get_spotify_access_token()) {
-
+get_track <- function(id, market = NULL,
+                      authorization = get_spotify_access_token()) {
     base_url <- 'https://api.spotify.com/v1/tracks'
-
     if (!is.null(market)) {
         if (!grepl('^[[:alpha:]]{2}$', market)) {
             stop('"market" must be an ISO 3166-1 alpha-2 country code')
         }
     }
-
-    params <- list(
-        market = market,
-        access_token = authorization
-    )
     url <- paste0(base_url, "/", id)
-    res <- RETRY('GET', url, query = params, encode = 'json')
-    stop_for_status(res)
-
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-
-    return(res)
+    tinyoauth::oauth_request(authorization, url, "GET",
+                             query = list(market = market), flatten = TRUE)
 }
 
 #' Get Spotify catalog information for a single track identified by its unique Spotify ID.
@@ -95,29 +71,21 @@ get_track <- function(id, market = NULL, authorization = get_spotify_access_toke
 #' Returns a data frame of results containing track data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_tracks <- function(ids, market = NULL, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
-
+get_tracks <- function(ids, market = NULL,
+                       authorization = get_spotify_access_token(),
+                       include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/tracks'
-
     if (!is.null(market)) {
         if (!grepl('^[[:alpha:]]{2}$', market)) {
             stop('"market" must be an ISO 3166-1 alpha-2 country code')
         }
     }
-    
-    params <- list(
-        ids = paste(ids, collapse = ','),
-        market = market,
-        access_token = authorization
-    )
-    res <- RETRY('GET', base_url, query = params, encode = 'json')
-    stop_for_status(res)
-
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-
+    params <- list(ids = paste(ids, collapse = ','), market = market)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET",
+                                    query = params, flatten = TRUE)
     if (!include_meta_info) {
         res <- res$tracks
     }
-
-    return(res)
+    res
 }
+

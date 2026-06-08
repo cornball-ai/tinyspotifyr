@@ -7,10 +7,10 @@
 #' @export
 is_uri <- function(s) {
     nchar(s) == 22 &
-        !grepl(' ', s) &
-        grepl('[[:digit:]]', s) &
-        grepl('[[:lower:]]', s) &
-        grepl('[[:upper:]]', s)
+    !grepl(' ', s) &
+    grepl('[[:digit:]]', s) &
+    grepl('[[:lower:]]', s) &
+    grepl('[[:upper:]]', s)
 }
 
 #' Pitch class notation lookup
@@ -19,7 +19,8 @@ is_uri <- function(s) {
 #' @return
 #' Returns a character vector.
 #' @export
-pitch_class_lookup <- c('C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B')
+pitch_class_lookup <- c('C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G',
+                        'G#', 'A', 'A#', 'B')
 
 #' Verify API result
 #'
@@ -41,14 +42,15 @@ verify_result <- function(res) {
 #' Returns a character vector.
 #' @export
 scopes <- c("ugc-image-upload", "user-read-recently-played",
-            "user-read-playback-state", "user-top-read", "app-remote-control",
-            "playlist-modify-public", "user-modify-playback-state",
-            "playlist-modify-private", "user-follow-modify",
-            "user-read-currently-playing", "user-follow-read",
-            "user-library-modify", "user-read-playback-position",
-            "playlist-read-private", "user-read-email", "user-read-private",
-            "user-library-read", "playlist-read-collaborative", "streaming")
-    
+            "user-read-playback-state", "user-top-read",
+            "app-remote-control", "playlist-modify-public",
+            "user-modify-playback-state", "playlist-modify-private",
+            "user-follow-modify", "user-read-currently-playing",
+            "user-follow-read", "user-library-modify",
+            "user-read-playback-position", "playlist-read-private",
+            "user-read-email", "user-read-private", "user-library-read",
+            "playlist-read-collaborative", "streaming")
+
     # xml2::read_html("https://developer.spotify.com/documentation/general/guides/scopes/") %>%
     # html_nodes('code') %>%
     # html_text() %>%
@@ -62,9 +64,9 @@ scopes <- c("ugc-image-upload", "user-read-recently-played",
 # #' @param album_release_year_col String of field name containing album release year
 # #' @export
 # dedupe_album_names <- function(df, album_name_col = 'album_name', album_release_year_col = 'album_release_year') {
-# 
+#
 #     album_dupe_regex <- '(deluxe|international|anniversary|version|edition|remaster|re-master|live|mono|stereo)'
-# 
+#
 #     base_album_names <- df %>%
 #         mutate_('album_name_' = album_name_col,
 #                 'album_release_year_' = album_release_year_col) %>%
@@ -81,9 +83,10 @@ scopes <- c("ugc-image-upload", "user-read-recently-played",
 #         ungroup() %>%
 #         dplyr::filter((base_album == 1) |((num_base_albums == 0 | num_base_albums > 1) & row_number() == 1)) %>%
 #         pull(album_name_)
-# 
+#
 #     df %>%
 #         mutate_('album_name_' = album_name_col) %>%
 #         filter(album_name_ %in% base_album_names) %>%
 #         select(-album_name_)
 # }
+

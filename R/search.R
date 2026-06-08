@@ -40,8 +40,12 @@
 #' \dontrun{
 #' search_spotify('radiohead', 'artist')
 #' }
-search_spotify <- function(q, type = c('album', 'artist', 'playlist', 'track'), market = NULL, limit = 20, offset = 0, include_external = NULL, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
-
+search_spotify <- function(q,
+                           type = c('album', 'artist', 'playlist', 'track'),
+                           market = NULL, limit = 20, offset = 0,
+                           include_external = NULL,
+                           authorization = get_spotify_access_token(),
+                           include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/search'
 
     if (!is.character(q)) {
@@ -68,19 +72,11 @@ search_spotify <- function(q, type = c('album', 'artist', 'playlist', 'track'), 
         }
     }
 
-    params <- list(
-        q = q,
-        type = paste(type, collapse = ','),
-        market = market,
-        limit = limit,
-        offset = offset,
-        include_external = include_external,
-        access_token = authorization
-    )
-    res <- RETRY('GET', base_url, query = params, encode = 'json')
-    stop_for_status(res)
-
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
+    params <- list(q = q, type = paste(type, collapse = ','),
+                   market = market, limit = limit, offset = offset,
+                   include_external = include_external)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET", query = params, flatten = TRUE)
 
     return(res)
 }
+

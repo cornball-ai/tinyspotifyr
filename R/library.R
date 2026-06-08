@@ -18,21 +18,18 @@
 #' Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_my_saved_albums <- function(limit = 20, offset = 0, market = NULL, authorization = get_spotify_authorization_code(), include_meta_info = FALSE) {
+get_my_saved_albums <- function(limit = 20, offset = 0, market = NULL,
+                                authorization = get_spotify_authorization_code(),
+                                include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/me/albums'
     if (!is.null(market)) {
         if (grepl('^[[:alpha:]]{2}$', market)) {
             stop('"market" must be an ISO 3166-1 alpha-2 country code')
         }
     }
-    params <- list(
-        limit = limit,
-        offset = offset,
-        market = market
-    )
-    res <- RETRY('GET', base_url, query = params, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
+    params <- list(limit = limit, offset = offset, market = market)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET",
+                                    query = params, flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$items
@@ -60,24 +57,22 @@ get_my_saved_albums <- function(limit = 20, offset = 0, market = NULL, authoriza
 #' Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_my_saved_tracks <- function(limit = 20, offset = 0, market = NULL, authorization = get_spotify_authorization_code(), include_meta_info = FALSE) {
+get_my_saved_tracks <- function(limit = 20, offset = 0, market = NULL,
+                                authorization = get_spotify_authorization_code(),
+                                include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/me/tracks'
     if (!is.null(market)) {
         if (grepl('^[[:alpha:]]{2}$', market)) {
             stop('"market" must be an ISO 3166-1 alpha-2 country code')
         }
     }
-    params <- list(
-        limit = limit,
-        offset = offset,
-        market = market
-    )
-    res <- RETRY('GET', base_url, query = params, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
+    params <- list(limit = limit, offset = offset, market = market)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET",
+                                    query = params, flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$items
     }
     return(res)
 }
+

@@ -10,20 +10,16 @@
 #' Returns a data frame of results containing show data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_show <- function(id, market = "US", authorization = get_spotify_access_token()){
-  base_url <- 'https://api.spotify.com/v1/shows'
-  
-  params <- list(
-    market = market,
-    access_token = authorization
-  )
-  url <- paste0(base_url, "/", id)
-  res <- httr::GET(url, query = params, encode = 'json')
-  httr::stop_for_status(res)
-  
-  res <- jsonlite::fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-  
-  return(res)
+get_show <- function(id, market = "US",
+                     authorization = get_spotify_access_token()) {
+    base_url <- 'https://api.spotify.com/v1/shows'
+
+    params <- list(market = market)
+    url <- paste0(base_url, "/", id)
+    res <- tinyoauth::oauth_request(authorization, url, "GET",
+                                    query = params, flatten = TRUE)
+
+    return(res)
 }
 
 #' Get Spotify catalog information for a single show identified by their unique Spotify ID.
@@ -38,21 +34,16 @@ get_show <- function(id, market = "US", authorization = get_spotify_access_token
 #' Returns a data frame of results containing show data. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_shows <- function(ids, market = "US", authorization = get_spotify_access_token()){
-  base_url <- 'https://api.spotify.com/v1/shows'
-  
-  params <- list(
-    ids = paste(ids, collapse = ','),
-    market = market,
-    access_token = authorization
-  )
-  url <- paste0(base_url)
-  res <- httr::GET(url, query = params, encode = 'json')
-  httr::stop_for_status(res)
-  
-  res <- jsonlite::fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-  
-  return(res)
+get_shows <- function(ids, market = "US",
+                      authorization = get_spotify_access_token()) {
+    base_url <- 'https://api.spotify.com/v1/shows'
+
+    params <- list(ids = paste(ids, collapse = ','), market = market)
+    url <- paste0(base_url)
+    res <- tinyoauth::oauth_request(authorization, url, "GET",
+                                    query = params, flatten = TRUE)
+
+    return(res)
 }
 
 #' Get Spotify catalog information for a show's episodes identified by their unique Spotify ID.
@@ -67,21 +58,16 @@ get_shows <- function(ids, market = "US", authorization = get_spotify_access_tok
 #' Returns a data frame of results containing the episode data for a show. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_shows_episodes <- function(id, market = "US", authorization = get_spotify_access_token()) {
+get_shows_episodes <- function(id, market = "US",
+                               authorization = get_spotify_access_token()) {
+    base_url <- 'https://api.spotify.com/v1/shows'
 
-  base_url <- 'https://api.spotify.com/v1/shows'
+    params <- list(market = market)
+    url <- paste0(base_url, "/", id, "/episodes")
+    res <- tinyoauth::oauth_request(authorization, url, "GET",
+                                    query = params, flatten = TRUE)
 
-  params <- list(
-    market = market,
-    access_token = authorization
-  )
-  url <- paste0(base_url, "/", id, "/episodes?market=", market)
-  res <- GET(url, query = params, encode = 'json')
-  stop_for_status(res)
-  
-  res <- jsonlite::fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-  
-  return(res)
+    return(res)
 }
 
 #' Get Spotify uri information for a show's latest episodes identified by their unique Spotify ID.
@@ -96,8 +82,10 @@ get_shows_episodes <- function(id, market = "US", authorization = get_spotify_ac
 #' Returns a string containing the latest episode data for a show. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_latest_episode <- function(id, market = "US", authorization = get_spotify_authorization_code()){
-  episodes <- get_shows_episodes(id = id)
-  uri <- episodes$items$uri[1]
-  uri
+get_latest_episode <- function(id, market = "US",
+                               authorization = get_spotify_authorization_code()) {
+    episodes <- get_shows_episodes(id = id)
+    uri <- episodes$items$uri[1]
+    uri
 }
+

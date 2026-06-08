@@ -13,20 +13,19 @@
 #' No return value. Items added to playlist.
 #' @export
 
-add_items_to_playlist <- function(playlist_id, uris, position = NULL, market = "US", authorization = get_spotify_authorization_code()) {
-
+add_items_to_playlist <- function(playlist_id, uris, position = NULL,
+                                  market = "US",
+                                  authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/playlists'
-    
-    if(is.null(position)){
-        url <- paste0(base_url, "/", playlist_id, "/tracks?uris=", paste0(uris, collapse = ","), "&market=", market) 
+
+    if (is.null(position)) {
+        url <- paste0(base_url, "/", playlist_id, "/tracks?uris=",
+                      paste0(uris, collapse = ","), "&market=", market)
     } else {
-        url <- paste0(base_url, "/", playlist_id, "/tracks?uris=", paste0(uris, collapse = ","), "&market=", market, "&position=", position) 
+        url <- paste0(base_url, "/", playlist_id, "/tracks?uris=", paste0(uris, collapse = ","), "&market=", market, "&position=", position)
     }
-    
-    res <- RETRY('POST', url, config(token = authorization), encode = 'json') #, body = params)
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-    return(res)
+
+    tinyoauth::oauth_request(authorization, url, "POST", flatten = TRUE)
 }
 
 #' Add one or more tracks to a user’s playlist.
@@ -44,19 +43,15 @@ add_items_to_playlist <- function(playlist_id, uris, position = NULL, market = "
 #' No return value. Tracks added to playlist.
 #' @export
 
-add_tracks_to_playlist <- function(playlist_id, uris, position = NULL, market = NULL, authorization = get_spotify_authorization_code()) {
+add_tracks_to_playlist <- function(playlist_id, uris, position = NULL,
+                                   market = NULL,
+                                   authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/playlists'
-    url <- paste0(base_url, "/", playlist_id, "/tracks?uris=", paste0(uris, collapse = ","))
-    params <- list(
-        market = market,
-        position = position
-    )
-    res <- RETRY('POST', url, body = params, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-    return(res)
+    url <- paste0(base_url, "/", playlist_id, "/tracks?uris=",
+                  paste0(uris, collapse = ","))
+    params <- list(market = market, position = position)
+    tinyoauth::oauth_request(authorization, url, "POST", body = params, flatten = TRUE)
 }
-
 
 #' Change a playlist’s name and public/private state. (The user must, of course, own the playlist.)
 #'
@@ -71,18 +66,14 @@ add_tracks_to_playlist <- function(playlist_id, uris, position = NULL, market = 
 #' No return value. Playlist details changed.
 #' @export
 
-change_playlist_details <- function(playlist_id, name = NULL, public = NULL, collaborative = NULL, description = NULL, authorization = get_spotify_authorization_code()) {
+change_playlist_details <- function(playlist_id, name = NULL, public = NULL,
+                                    collaborative = NULL, description = NULL,
+                                    authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/playlists'
     url <- paste0(base_url, "/", playlist_id)
-    params <- list(
-        name = name,
-        public = public,
-        collaborative  = collaborative,
-        description = description
-    )
-    res <- RETRY('PUT', url, body = params, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    return(res)
+    params <- list(name = name, public = public,
+                   collaborative = collaborative, description = description)
+    tinyoauth::oauth_request(authorization, url, "PUT", body = params, flatten = TRUE)
 }
 
 #' Create a playlist for a Spotify user. (The playlist will be empty until you add tracks.)
@@ -98,19 +89,14 @@ change_playlist_details <- function(playlist_id, name = NULL, public = NULL, col
 #' Returns a list containing playlist information.
 #' @export
 
-create_playlist <- function(user_id, name, public = TRUE, collaborative = FALSE, description = NULL, authorization = get_spotify_authorization_code()) {
+create_playlist <- function(user_id, name, public = TRUE,
+                            collaborative = FALSE, description = NULL,
+                            authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/users'
     url <- paste0(base_url, "/", user_id, "/playlists")
-    params <- list(
-        name = name,
-        public = public,
-        collaborative  = collaborative,
-        description = description
-    )
-    res <- RETRY('POST', url, body = params, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-    return(res)
+    params <- list(name = name, public = public,
+                   collaborative = collaborative, description = description)
+    tinyoauth::oauth_request(authorization, url, "POST", body = params, flatten = TRUE)
 }
 
 #' Get a list of the playlists owned or followed by the current Spotify user.
@@ -131,16 +117,14 @@ create_playlist <- function(user_id, name, public = TRUE, collaborative = FALSE,
 #' Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_my_playlists <- function(limit = 20, offset = 0, authorization = get_spotify_authorization_code(), include_meta_info = FALSE) {
+get_my_playlists <- function(limit = 20, offset = 0,
+                             authorization = get_spotify_authorization_code(),
+                             include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/me/playlists'
-    params <- list(
-        limit = limit,
-        offset = offset
-    )
-    res <- RETRY('GET', base_url, query = params, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-    
+    params <- list(limit = limit, offset = offset)
+    res <- tinyoauth::oauth_request(authorization, base_url, "GET",
+                                    query = params, flatten = TRUE)
+
     if (!include_meta_info) {
         res <- res$items
     }
@@ -165,16 +149,14 @@ get_my_playlists <- function(limit = 20, offset = 0, authorization = get_spotify
 #' @return
 #' Returns a data frame of results containing user playlist information. See the official \href{https://developer.spotify.com/documentation/web-api}{Spotify Web API documentation} for more information.
 #' @export
-get_user_playlists <- function(user_id, limit = 20, offset = 0, authorization = get_spotify_authorization_code(), include_meta_info = FALSE) {
+get_user_playlists <- function(user_id, limit = 20, offset = 0,
+                               authorization = get_spotify_authorization_code(),
+                               include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/users'
     url <- paste0(base_url, "/", user_id, "/playlists")
-    params <- list(
-        limit = limit,
-        offset = offset
-    )
-    res <- RETRY('GET', url, query = params, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
+    params <- list(limit = limit, offset = offset)
+    res <- tinyoauth::oauth_request(authorization, url, "GET",
+                                    query = params, flatten = TRUE)
     if (!include_meta_info) {
         res <- res$items
     }
@@ -190,13 +172,11 @@ get_user_playlists <- function(user_id, limit = 20, offset = 0, authorization = 
 #' Returns a data frame of results containing playlist cover image information. See the official \href{https://developer.spotify.com/documentation/web-api}{Spotify Web API Documentation} for more information.
 #' @export
 
-get_playlist_cover_image <- function(playlist_id, authorization = get_spotify_authorization_code()) {
+get_playlist_cover_image <- function(playlist_id,
+                                     authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/playlists'
     url <- paste0(base_url, "/", playlist_id, "/images")
-    res <- RETRY('GET', url, config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-    return(res)
+    tinyoauth::oauth_request(authorization, url, "GET", flatten = TRUE)
 }
 
 #' Get a playlist owned by a Spotify user.
@@ -215,20 +195,13 @@ get_playlist_cover_image <- function(playlist_id, authorization = get_spotify_au
 #' Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_playlist <- function(playlist_id, fields = NULL, market = NULL, authorization = get_spotify_access_token()) {
+get_playlist <- function(playlist_id, fields = NULL, market = NULL,
+                         authorization = get_spotify_access_token()) {
     base_url <- 'https://api.spotify.com/v1/playlists'
     url <- paste0(base_url, "/", playlist_id)
-    params <- list(
-        fields = paste(fields, collapse = ','),
-        market = market,
-        access_token = authorization
-    )
-
-    res <- RETRY('GET', url, query = params, encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'),
-                           flatten = TRUE)
-    return(res)
+    params <- list(fields = paste(fields, collapse = ','), market = market)
+    tinyoauth::oauth_request(authorization, url, "GET", query = params,
+                             flatten = TRUE)
 }
 
 #' Get full details of the items of a playlist owned by a Spotify user.
@@ -254,21 +227,22 @@ get_playlist <- function(playlist_id, fields = NULL, market = NULL, authorizatio
 #' Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_playlist_items <- function(playlist_id, fields = NULL, limit = 100, offset = 0, market = NULL, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
-    
+get_playlist_items <- function(playlist_id, fields = NULL, limit = 100,
+                               offset = 0, market = NULL,
+                               authorization = get_spotify_access_token(),
+                               include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/playlists'
     url <- paste0(base_url, "/", playlist_id, "/tracks")
     params <- list(
-        fields = ifelse(!is.null(fields), paste0('items(', paste0(fields, collapse = ','), ')'), ''),
-        limit = limit,
-        offset = offset,
-        market = market,
-        access_token = authorization
+                   fields = ifelse(!is.null(fields),
+                                   paste0('items(', paste0(fields, collapse = ','), ')'),
+                                   ''),
+                   limit = limit,
+                   offset = offset,
+                   market = market
     )
-    res <- RETRY('GET', url, query = params, encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-    
+    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
+
     if (!include_meta_info) {
         res <- res$items
     }
@@ -298,20 +272,21 @@ get_playlist_items <- function(playlist_id, fields = NULL, limit = 100, offset =
 #' Returns a data frame of results containing user profile information. See \url{https://developer.spotify.com/documentation/web-api} for more information.
 #' @export
 
-get_playlist_tracks <- function(playlist_id, fields = NULL, limit = 100, offset = 0, market = NULL, authorization = get_spotify_access_token(), include_meta_info = FALSE) {
-
+get_playlist_tracks <- function(playlist_id, fields = NULL, limit = 100,
+                                offset = 0, market = NULL,
+                                authorization = get_spotify_access_token(),
+                                include_meta_info = FALSE) {
     base_url <- 'https://api.spotify.com/v1/playlists'
     url <- paste0(base_url, "/", playlist_id, "/tracks")
     params <- list(
-        fields = ifelse(!is.null(fields), paste0('items(', paste0(fields, collapse = ','), ')'), ''),
-        limit = limit,
-        offset = offset,
-        market = market,
-        access_token = authorization
+                   fields = ifelse(!is.null(fields),
+                                   paste0('items(', paste0(fields, collapse = ','), ')'),
+                                   ''),
+                   limit = limit,
+                   offset = offset,
+                   market = market
     )
-    res <- RETRY('GET', url, query = params, encode = 'json')
-    stop_for_status(res)
-    res <- fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
+    res <- tinyoauth::oauth_request(authorization, url, "GET", query = params, flatten = TRUE)
 
     if (!include_meta_info) {
         res <- res$items
@@ -330,39 +305,18 @@ get_playlist_tracks <- function(playlist_id, fields = NULL, limit = 100, offset 
 #' @return
 #' No return value. Tracks are removed from playlist.
 #' @export
-remove_tracks_from_playlist <- function(playlist_id, uris, authorization = get_spotify_authorization_code()) {
+remove_tracks_from_playlist <- function(playlist_id, uris,
+                                        authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/playlists'
     url <- paste0(base_url, "/", playlist_id, "/tracks/")
 
-    # For DELETE request params URIs should be put in body
+    # For DELETE the URIs go in the body, as an R list; oauth_request JSON-encodes it.
     uris_list <- lapply(uris, function(x) list(uri = x))
-    params <- jsonlite::toJSON(list(tracks = uris_list), auto_unbox = TRUE)
+    params <- list(tracks = uris_list)
 
-    res <- httr::RETRY('DELETE', url, body = params, httr::config(token = authorization), encode = 'json')
-    stop_for_status(res)
-    res <- jsonlite::fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-    return(res)
+    tinyoauth::oauth_request(authorization, url, "DELETE", body = params,
+                             flatten = TRUE)
 }
-
-# remove_tracks_from_playlist <- function(playlist_id, uris, positions, market = "US", authorization = get_spotify_authorization_code()) {
-#     base_url <- 'https://api.spotify.com/v1/playlists'
-#     url <- paste0(base_url, "/", playlist_id, "/tracks")
-#     if(!is.null(market)){
-#         url <- paste0(url, "?market=", market)
-#     }
-#     
-#     # For DELETE request params URIs should be put in body
-#     uris_list <- lapply(uris, function(x) list(uri = x))
-#     for(i in 1:length(positions)){
-#         uris_list[[i]]$positions <- list(positions[i])
-#     }
-#     params <- jsonlite::toJSON(list(tracks = uris_list), auto_unbox = TRUE)
-#     
-#     res <- httr::RETRY('DELETE', url, body = params, httr::config(token = authorization), encode = 'json')
-#     stop_for_status(res)
-#     res <- jsonlite::fromJSON(content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-#     return(res)
-# }
 
 #' Add the latest episode of a podcast to a user’s playlist.
 #'
@@ -377,12 +331,16 @@ remove_tracks_from_playlist <- function(playlist_id, uris, authorization = get_s
 #' @return
 #' No return value. Tracks are added to playlist.
 #' @export
-add_latest_to_playlist <- function(playlist_id, uri, position = NULL, market = "US", authorization = get_spotify_authorization_code()) {
+add_latest_to_playlist <- function(playlist_id, uri, position = NULL,
+                                   market = "US",
+                                   authorization = get_spotify_authorization_code()) {
     id <- strsplit(uri, ":")[[1]][3]
     episodes <- get_shows_episodes(id = id)
     uris <- episodes$items$uri[1]
-    if(length(uris) > 0){
-        add_items_to_playlist(playlist_id = playlist_id, uris = uris, position = position, market = market, authorization = authorization)
+    if (length(uris) > 0) {
+        add_items_to_playlist(playlist_id = playlist_id, uris = uris,
+                              position = position, market = market,
+                              authorization = authorization)
     }
 }
 
@@ -398,13 +356,11 @@ add_latest_to_playlist <- function(playlist_id, uri, position = NULL, market = "
 #' No return value. Tracks are added or reordered on playlist.
 #' @export
 
-reorder_replace_playlist_items <- function(playlist_id, uris, authorization = get_spotify_authorization_code()) {
+reorder_replace_playlist_items <- function(playlist_id, uris,
+    authorization = get_spotify_authorization_code()) {
     base_url <- 'https://api.spotify.com/v1/playlists'
     url <- paste0(base_url, "/", playlist_id, "/tracks?uris=",
                   paste0(uris, collapse = ","))
-    res <- httr::RETRY('PUT', url, #body = params,
-                       httr::config(token = authorization), encode = 'json')
-    httr::stop_for_status(res)
-    res <- jsonlite::fromJSON(httr::content(res, as = 'text', encoding = 'UTF-8'), flatten = TRUE)
-    return(res)
+    tinyoauth::oauth_request(authorization, url, "PUT", flatten = TRUE)
 }
+
