@@ -31,6 +31,16 @@ jobs:
           dev_version: 'TRUE'
           backend: 'RAPT'
 
+      # tinyoauth is GitHub-only. Install it from a plain git clone (git
+      # protocol, no GitHub REST API) so dependency resolution below doesn't
+      # hit api.github.com rate limits / cross-repo token failures. Once it's
+      # installed, install_deps treats the Imports entry as satisfied.
+      - name: Install tinyoauth (GitHub-only dependency)
+        run: |
+          Rscript -e 'install.packages(c("curl", "jsonlite"))'
+          git clone --depth 1 https://github.com/cornball-ai/tinyoauth.git /tmp/tinyoauth
+          R CMD INSTALL /tmp/tinyoauth
+
       - name: Dependencies
         run: ./run.sh install_deps
 
