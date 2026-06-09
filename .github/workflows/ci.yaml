@@ -8,6 +8,9 @@ on:
 
 env:
   _R_CHECK_FORCE_SUGGESTS_: "false"
+  # Authenticate GitHub API calls so installing the GitHub-only dependency
+  # (Remotes: cornball-ai/tinyoauth) doesn't hit anonymous rate limits.
+  GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   ci:
